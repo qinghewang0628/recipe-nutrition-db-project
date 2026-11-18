@@ -16,6 +16,7 @@ the ER diagram and the load/scale verification live in `docs/`.
 | `sql/`     | B     | `schema.sql` (DDL), `index.sql` (indexes), `queries.sql` (core queries) |
 | `scale/`   | B     | Derivation of the 4 missing tier tables + the x1/x5/x20 experiment   |
 | `docs/`    | B/D   | `schema-design.md` (ER + 3NF), `load_verification.md`, `scale_experiment.md`, consolidated report |
+| `docs/figures/` | B | Rendered ER diagram (`er-diagram.png` / `.svg`), exported from `schema-design.md` §2 |
 | `report/`  | D     | Final report and figures                                              |
 | `dataset/` | -     | Raw course CSVs, local only (licence unconfirmed), not committed      |
 

@@ -132,11 +132,24 @@ All eleven tables appear with their key attributes (the full column list is
 The two links to `ingredient_master` are why q1 can weight a match without
 touching the 95,912-row fact table twice.
 
-The diagram is Mermaid source, so it renders in the README/VS Code preview and
-on GitHub without an extra file; for the PDF report export it with
-`npx @mermaid-js/mermaid-cli -i docs/schema-design.md -o schema.png` (needs a
-one-off `npm install`). `docs/evidence/er_attribute_check.txt` records the check
-that every attribute drawn here exists as a column in `recipe_db`.
+The diagram is Mermaid source, so it renders in the VS Code preview and on GitHub
+without an extra file. A rendered copy is committed for the report:
+`docs/figures/er-diagram.png` (1984 x 1002) and `docs/figures/er-diagram.svg`
+(vector, for the PDF). To regenerate after editing the block above:
+
+```bash
+npx @mermaid-js/mermaid-cli -i docs/schema-design.md -o docs/figures/er-diagram.png -b white -w 2000
+npx @mermaid-js/mermaid-cli -i docs/schema-design.md -o docs/figures/er-diagram.svg -b white
+# a markdown input yields one file per diagram, so the actual output is
+# er-diagram-1.png / er-diagram-1.svg - rename it to er-diagram.*
+```
+
+(Node 18+; to reuse an installed Chrome instead of letting Puppeteer download
+Chromium, pass `-p cfg.json` with `{"executablePath": "...", "args": ["--no-sandbox"]}`.)
+
+`docs/evidence/er_attribute_check.txt` records the check that every attribute
+drawn here exists as a column in `recipe_db` and that every PK/FK marker matches
+`pg_constraint` - i.e. that this picture describes the database that was built.
 
 ## 3. Functional dependencies and 3NF
 
