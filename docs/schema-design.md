@@ -27,6 +27,14 @@ stages, are consumed by different queries, and (for `recipe_search_document`)
 would otherwise make the hot table four times wider. Splitting them keeps
 `recipes` at 1.7 MB, which is what makes the q2 sequential scan cheap.
 
+Column-level detail - type, nullability, every CHECK, which index covers the
+column, and one line of meaning for each of the 125 columns - is in
+`docs/data_dictionary.md`. It is generated from the live catalogue by
+`tools/gen_data_dictionary.py`, so it describes what PostgreSQL actually
+enforces rather than what the design intended; the logical side (domain,
+provenance, transform of each source column) stays in
+`part_a/docs/data_dictionary.md`.
+
 ## 2. ER diagram
 
 ```mermaid

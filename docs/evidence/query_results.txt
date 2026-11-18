@@ -1,0 +1,63 @@
+-- Recorded output of  psql -h 127.0.0.1 -d recipe_db -v ON_ERROR_STOP=1 -f sql/queries.sql
+-- against the x1 tier (schema v1.0, all four secondary indexes present).
+-- Blocks appear in file order: q1 (reverse ingredient search), q2 (multi-condition
+-- filter), q3 (full-text search). The LIMIT is part of each query, so the row
+-- counts (10 / 14 / 20) show that the filters and the ranking fill a page on the
+-- real data, not just that the statements parse.
+
+ recipe_id |           recipe_name            |  cuisine  |   category   | total_time_minutes | calories_per_serving | matched_ingredients | ingredient_count | matched_share | weighted_score | coverage 
+-----------+----------------------------------+-----------+--------------+--------------------+----------------------+---------------------+------------------+---------------+----------------+----------
+ RCP03285  | Samosa                           | Indian    | Main Course  |                128 |                  556 |                   3 |                7 |         0.429 |          9.701 |    1.000
+ RCP09027  | Fusion Indo-Chinese Special 29   | Fusion    | Indo-Chinese |                104 |                  635 |                   3 |                8 |         0.375 |          9.701 |    1.000
+ RCP00641  | Pakistani Appetizers Special 141 | Pakistani | Appetizers   |                 74 |                  392 |                   3 |               11 |         0.273 |          9.701 |    1.000
+ RCP01549  | Pakistani Desserts Special 49    | Pakistani | Desserts     |                116 |                  635 |                   3 |               11 |         0.273 |          9.701 |    1.000
+ RCP04502  | Dosa                             | Indian    | Bread        |                192 |                  676 |                   3 |               12 |         0.250 |          9.701 |    1.000
+ RCP09457  | Chaat                            | Fusion    | Street Food  |                151 |                  474 |                   3 |               12 |         0.250 |          9.701 |    1.000
+ RCP09527  | Fusion Street Food Special 196   | Fusion    | Street Food  |                 91 |                  732 |                   3 |               12 |         0.250 |          9.701 |    1.000
+ RCP02148  | Chicken Tikka                    | Pakistani | Beverages    |                 85 |                  443 |                   3 |               13 |         0.231 |          9.701 |    1.000
+ RCP04642  | Indian Bread Special 476         | Indian    | Bread        |                 69 |                  226 |                   3 |               13 |         0.231 |          9.701 |    1.000
+ RCP04855  | Gulab Jamun                      | Indian    | Desserts     |                134 |                  710 |                   3 |               13 |         0.231 |          9.701 |    1.000
+(10 rows)
+
+ recipe_id |          recipe_name           | cuisine |  category   | difficulty | spice_level | total_time_minutes | estimated_cost_usd | calories_per_serving | rating | review_count |         allergens         
+-----------+--------------------------------+---------+-------------+------------+-------------+--------------------+--------------------+----------------------+--------+--------------+---------------------------
+ RCP06432  | Indian Snacks Special 517      | Indian  | Snacks      | Hard       | Medium      |                 82 |               6.07 |                  316 |    4.9 |         3453 | milk|tree_nuts
+ RCP04140  | Chole Bhature                  | Indian  | Appetizers  | Hard       | Medium      |                 79 |               6.57 |                  224 |    4.9 |         3404 | milk|soy|tree_nuts
+ RCP05805  | Vindaloo                       | Indian  | Beverages   | Easy       | Medium      |                 60 |               2.59 |                  580 |    4.9 |         1560 | milk|sesame|soy
+ RCP05301  | Indian Desserts Special 552    | Indian  | Desserts    | Easy       | Medium      |                 66 |               5.19 |                  553 |    4.7 |         2952 | milk|soy
+ RCP03188  | Indian Main Course Special 188 | Indian  | Main Course | Hard       | Medium      |                 52 |               5.84 |                  495 |    4.7 |         1895 | milk|sesame|soy|tree_nuts
+ RCP05820  | Butter Chicken                 | Indian  | Beverages   | Hard       | Medium      |                 76 |               4.97 |                  249 |    4.6 |         2747 | milk
+ RCP05089  | Vindaloo                       | Indian  | Desserts    | Easy       | Medium      |                 41 |               2.61 |                  538 |    4.5 |         3583 | none
+ RCP04191  | Gulab Jamun                    | Indian  | Bread       | Medium     | Medium      |                 81 |               4.75 |                  598 |    4.4 |         3988 | none
+ RCP06456  | Indian Snacks Special 541      | Indian  | Snacks      | Easy       | Medium      |                 33 |               8.75 |                  463 |    4.3 |          443 | none
+ RCP03316  | Idli                           | Indian  | Main Course | Easy       | Medium      |                 72 |               9.53 |                  488 |    4.3 |          144 | soy
+ RCP04988  | Gulab Jamun                    | Indian  | Desserts    | Hard       | Medium      |                 78 |               5.59 |                  326 |    4.2 |         4214 | milk|soy|tree_nuts
+ RCP03681  | Indian Appetizers Special 98   | Indian  | Appetizers  | Easy       | Medium      |                 83 |               8.36 |                  339 |    4.2 |         3210 | milk
+ RCP04757  | Chole Bhature                  | Indian  | Desserts    | Easy       | Medium      |                 77 |               7.41 |                  432 |    4.1 |         2167 | none
+ RCP05848  | Tandoori Chicken               | Indian  | Beverages   | Easy       | Medium      |                 90 |               2.72 |                  430 |    4.0 |          777 | none
+(14 rows)
+
+ recipe_id |    recipe_name     |   cuisine   |   category    | total_time_minutes |  rank   |                                     headline                                      
+-----------+--------------------+-------------+---------------+--------------------+---------+-----------------------------------------------------------------------------------
+ RCP04535  | Butter Chicken     | Indian      | Bread         |                 56 | 0.15364 | <b>Chicken</b> <b>Curry</b> Leaves Garlic Milk Onion Salt Wash
+ RCP07169  | Hilsa Fish Curry   | Bangladeshi | Rice Dishes   |                114 | 0.15325 | <b>Curry</b> Bangladeshi Rice Dishes Boiled <b>Chicken</b> Chickpeas <b>Curry</b>
+ RCP04069  | Butter Chicken     | Indian      | Appetizers    |                136 | 0.14922 | <b>Chicken</b> Cinnamon <b>Curry</b> Leaves Fenugreek Leaves Garlic Onion
+ RCP04132  | Butter Chicken     | Indian      | Appetizers    |                144 | 0.14922 | <b>Chicken</b> Cumin <b>Curry</b> Leaves Garlic Milk Onion Paneer
+ RCP03495  | Tandoori Chicken   | Indian      | Main Course   |                168 | 0.14362 | <b>Chicken</b> <b>Curry</b> Leaves Garlic Ghee Onion Salt Turmeric
+ RCP06824  | Hilsa Fish Curry   | Bangladeshi | Fish Dishes   |                192 | 0.14362 | <b>Curry</b> Bangladeshi Fish Dishes Slow-cooked <b>Chicken</b> <b>Curry</b>
+ RCP05669  | Butter Chicken     | Indian      | Beverages     |                117 | 0.14244 | <b>Chicken</b> Chickpea Flour <b>Curry</b> Leaves Eggs Garlic Onion
+ RCP03517  | Tandoori Chicken   | Indian      | Main Course   |                219 | 0.13583 | <b>Chicken</b> <b>Curry</b> Leaves Garlic Oil Onion Potato Salt
+ RCP09599  | Chilli Chicken     | Fusion      | Street Food   |                151 | 0.13583 | <b>Chicken</b> <b>Curry</b> Leaves Garlic Onion Paneer Salt Spinach
+ RCP05371  | Tandoori Chicken   | Indian      | Beverages     |                111 | 0.13461 | <b>Chicken</b> Cloves Cream <b>Curry</b> Leaves Garlic Ghee Mint
+ RCP09044  | Chilli Chicken     | Fusion      | Indo-Chinese  |                196 | 0.12719 | <b>Chicken</b> <b>Curry</b> Leaves Fresh Coriander Garlic Ghee Mutton
+ RCP09538  | Chilli Chicken     | Fusion      | Street Food   |                177 | 0.12719 | <b>Chicken</b> <b>Curry</b> Leaves Fish Garlic Mustard Seeds Onion
+ RCP09616  | Chicken Manchurian | Fusion      | Street Food   |                 96 | 0.12719 | <b>Chicken</b> <b>Curry</b> Leaves Fresh Coriander Garlic Ghee Mint
+ RCP04835  | Tandoori Chicken   | Indian      | Desserts      |                 68 | 0.12675 | <b>Chicken</b> Chickpeas <b>Curry</b> Leaves Garlic Mint Leaves Onion
+ RCP09687  | Chicken Manchurian | Fusion      | Modern Fusion |                 61 | 0.12675 | <b>Chicken</b> Cinnamon <b>Curry</b> Leaves Fresh Coriander Garlic Ghee
+ RCP05076  | Tandoori Chicken   | Indian      | Desserts      |                165 | 0.12592 | <b>Chicken</b> Chickpea Flour <b>Curry</b> Leaves Fenugreek Leaves Garlic
+ RCP09095  | Chilli Chicken     | Fusion      | Indo-Chinese  |                175 | 0.12592 | <b>Chicken</b> Chickpeas Coriander <b>Curry</b> Leaves Fenugreek Leaves Garlic
+ RCP03297  | Butter Chicken     | Indian      | Main Course   |                206 | 0.11889 | <b>Chicken</b> <b>Curry</b> Leaves Eggs Fenugreek Leaves Garlic Mint
+ RCP04682  | Butter Chicken     | Indian      | Bread         |                 85 | 0.11844 | <b>Chicken</b> Cream <b>Curry</b> Leaves Fenugreek Leaves Fresh Coriander
+ RCP02735  | Chicken Tikka      | Pakistani   | Street Food   |                176 | 0.11759 | <b>Chicken</b> Cream Cumin <b>Curry</b> Leaves Fenugreek Leaves Garlic
+(20 rows)
+

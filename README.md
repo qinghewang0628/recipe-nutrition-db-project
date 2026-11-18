@@ -15,8 +15,9 @@ the ER diagram and the load/scale verification live in `docs/`.
 | `part_a/`  | A     | Delivered ETL package: cleaning pipeline, 11 cleaned tables, docs     |
 | `sql/`     | B     | `schema.sql` (DDL), `index.sql` (indexes), `queries.sql` (core queries) |
 | `scale/`   | B     | Derivation of the 4 missing tier tables + the x1/x5/x20 experiment   |
-| `docs/`    | B/D   | `schema-design.md` (ER + 3NF), `load_verification.md`, `scale_experiment.md`, consolidated report |
-| `docs/figures/` | B | Rendered ER diagram (`er-diagram.png` / `.svg`), exported from `schema-design.md` §2 |
+| `docs/`    | B/D   | `schema-design.md` (ER + 3NF), `data_dictionary.md` (physical: keys, CHECKs, indexes), `load_verification.md`, `scale_experiment.md`, consolidated report |
+| `docs/figures/` | B | Rendered ER diagram (`er-diagram.png` / `.svg`) and index timings (`timings.png` / `.svg`) |
+| `tools/`   | B     | Generators for `docs/data_dictionary.md` and `docs/figures/timings.*` |
 | `report/`  | D     | Final report and figures                                              |
 | `dataset/` | -     | Raw course CSVs, local only (licence unconfirmed), not committed      |
 
@@ -78,6 +79,10 @@ q1/q3, a one-row FROM subquery for q2), so it can be run as-is:
 psql -h 127.0.0.1 -d recipe_db -f sql/queries.sql          # all three, in order
 ```
 
+`docs/evidence/query_results.txt` is the recorded output of exactly that command
+on the x1 tier: 10 / 14 / 20 rows, i.e. the `LIMIT` is filled by real data rather
+than the statements merely parsing.
+
 Load verification, integrity checks, constraint tests and the before/after index
 timings are recorded in `docs/load_verification.md`, with the raw psql output in
 `docs/evidence/`.
@@ -113,6 +118,23 @@ without it a search takes 5.5 s at x20; q2's b-trees hold 2.8x / 2.5x / 2.2x;
 q1's index is a tie at x1 and only 1.3-1.4x at x5/x20, because q1 spends its
 time aggregating ingredient postings (79k of them at x20) rather than reading
 the heap - which is the finding that feeds Part C's API design.
+
+## Figures and the data dictionary
+
+Both figures are generated from the same files the text quotes, so neither can
+drift from the numbers:
+
+| File | What it shows | Produced by |
+|---|---|---|
+| `docs/figures/er-diagram.png` / `.svg` | all 11 tables and 10 relationships, exported from the Mermaid source in `docs/schema-design.md` §2 | `npx @mermaid-js/mermaid-cli` |
+| `docs/figures/timings.png` / `.svg` | q1-q3 median time with and without the four secondary indexes, at x1 / x5 / x20 | `python3 tools/plot_timings.py` |
+
+`docs/data_dictionary.md` is the *physical* data dictionary - 11 tables, 125
+columns, 10 foreign keys, 56 CHECK constraints, 5 indexes - generated from
+`pg_catalog` by `python3 tools/gen_data_dictionary.py` (it exits non-zero if a
+column has no description, so it cannot silently fall behind `schema.sql`). The
+*logical* dictionary, with the domain and provenance of every source column,
+stays in `part_a/docs/data_dictionary.md`.
 
 ## Contracts inherited from Part A
 

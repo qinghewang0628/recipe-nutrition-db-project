@@ -31,6 +31,10 @@ because every foreign key is declared `DEFERRABLE INITIALLY DEFERRED`. The
 `CHECK` constraints are validated per row, so a narrowed type or a wrong domain
 would have failed the load instead of silently producing a wrong database.
 
+The same three steps produce the database that `docs/data_dictionary.md` is
+generated from, so the dictionary's row counts (5 / 25 / 9,997 / ... / 95,912)
+are the counts in §2 below.
+
 ## 2. Reconciliation with Part A's manifest
 
 | Table | Rows in `recipe_db` | `manifest.json` | Match |
@@ -94,7 +98,9 @@ cannot reintroduce the defects Part A cleaned.
 Primary keys cover the remaining access paths (`ingredients (recipe_id, ...)`,
 the 1:1 extension tables, the two dimensions), so no further index was added.
 The list of deliberately unindexed columns and the reason for each is in
-`sql/index.sql`.
+`sql/index.sql`; the same inventory with the CHECK each column carries is
+`docs/data_dictionary.md` §5. What each of the four buys, measured at all three
+tiers, is plotted in `docs/figures/timings.png` (§6 has the x1 numbers).
 
 ## 6. Timing on the 10k tier (`docs/evidence/timings.csv`)
 

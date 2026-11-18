@@ -120,6 +120,14 @@ An earlier run of the same script, on the same machine, gave 12.9/291 ms (x1),
 59.7/1421 ms (x5) and 243.9/5458 ms (x20) for q3 and 264.7/364.0 ms at x20 for
 q1: absolute times moved, plans and ratios did not.
 
+![Median query time with and without the four secondary indexes at x1, x5 and x20](figures/timings.png)
+
+*`docs/figures/timings.png` (and `.svg`), rendered from `docs/evidence/scale_timings.csv`
+by `tools/plot_timings.py`. q1 is a tie at x1 - the `ORDER BY` tie-break, not the
+lookup, dominates there - and only becomes a measurable win at x20, where it removes
+a 293 MB sequential scan. q3 is where the GIN index pays for itself: 429 ms -> 29 ms
+at x1, 5,497 ms -> 245 ms at x20.*
+
 Plan shapes (`docs/evidence/scale_plans.txt`) do not change between tiers; only
 q1 changes between configurations:
 
