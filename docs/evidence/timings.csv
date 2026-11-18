@@ -1,7 +1,10 @@
-scale,indexes,query,runs,median_ms
-small,none,q1,5,8.850
-small,none,q2,5,1.015
-small,none,q3,5,284.914
-small,all,q1,5,2.644
-small,all,q2,5,0.511
-small,all,q3,5,13.702
+# 10k tier: t_small (Part B rebuild of the 4 tables the tier does not ship)
+# vs t_small_noidx (same data, no secondary indexes). 12 runs per
+# configuration in alternating blocks; see docs/scale_experiment.md section 3.
+query,indexes,runs,median_ms,min_ms,max_ms
+q1,all,12,17.411,15.553,47.241
+q1,none,12,17.297,16.363,31.39
+q2,all,12,0.603,0.392,2.282
+q2,none,12,1.679,1.504,4.119
+q3,all,12,28.573,21.339,36.36
+q3,none,12,429.137,352.249,498.9

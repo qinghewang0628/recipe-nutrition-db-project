@@ -1,0 +1,72 @@
+# ER diagram (docs/schema-design.md §2) vs the built database, recipe_db at x1.
+# Parses the mermaid block, then for every table compares each drawn attribute
+# with information_schema.columns and each PK/FK marker with pg_constraint.
+
+ER diagram vs recipe_db: per-table attribute and key-marker check
+table                    drawn rows_in_db attrs_ok keys_ok
+cuisine_category             2         25     True    True
+cuisines                     4          5     True    True
+ingredient_master            5         57     True    True
+ingredient_stats             4         57     True    True
+ingredients                  7      95912     True    True
+nutrition                    6       9997     True    True
+recipe_allergens             5       9997     True    True
+recipe_dietary_audit         6       9997     True    True
+recipe_search_document       3       9997     True    True
+recipes                     14       9997     True    True
+steps                        4      84616     True    True
+
+tables=11 entities_drawn=11 relations=10
+tables_without_entity_block=none
+relations_pointing_at_unknown_table=none
+ALL_CHECKS_PASS=True
+
+# "drawn" is the number of attributes shown in the diagram, not the number of
+# columns in the table: the diagram deliberately shows only the columns a reader
+# needs to follow a join or a filter, the full list is sql/schema.sql.
+#
+# Before the fix recorded here, five tables (cuisines, cuisine_category, steps,
+# nutrition, recipe_dietary_audit) appeared only as endpoints of a relationship
+# and rendered as empty boxes. They now carry their key attributes too.
+
+# ---------------------------------------------------------------------------
+# Appendix: the checker, so that this file can be regenerated (run from the
+# repository root with psql on PATH).
+#
+# import re, subprocess
+# PSQL = ["psql", "-h", "127.0.0.1", "-d", "recipe_db", "-At", "-F", "\t", "-c"]
+# q = lambda sql: [r.split("\t") for r in subprocess.run(
+#         PSQL + [sql], capture_output=True, text=True, check=True).stdout.splitlines()]
+#
+# block = re.search(r"```mermaid\n(.*?)```",
+#                   open("docs/schema-design.md").read(), re.S).group(1)
+# rels = re.findall(r"^\s*(\w+)\s+(\|\|--o\{|\|\|--\|\|)\s+(\w+)\s*:", block, re.M)
+#
+# ents, cur = {}, None
+# for line in block.splitlines():
+#     if (m := re.match(r"^    (\w+) \{$", line)):      cur, ents[m.group(1)] = m.group(1), []
+#     elif re.match(r"^    \}$", line):                 cur = None
+#     elif cur and line.strip():
+#         p = line.split(); ents[cur].append((p[1], p[2] if len(p) > 2 else ""))
+#
+# cols = {}
+# for t, c in q("SELECT table_name, column_name FROM information_schema.columns "
+#               "WHERE table_schema='public'"):
+#     cols.setdefault(t, set()).add(c)
+#
+# pks, fks = {}, {}
+# for kind, store in (("p", pks), ("f", fks)):
+#     for t, c in q("SELECT t.relname, a.attname FROM pg_constraint c "
+#                   "JOIN pg_class t ON t.oid=c.conrelid "
+#                   "JOIN pg_namespace n ON n.oid=t.relnamespace "
+#                   "JOIN unnest(c.conkey) k(attnum) ON true "
+#                   "JOIN pg_attribute a ON a.attrelid=t.oid AND a.attnum=k.attnum "
+#                   f"WHERE c.contype='{kind}' AND n.nspname='public'"):
+#         store.setdefault(t, set()).add(c)
+#
+# for t in sorted(set(cols) | set(ents)):
+#     drawn = ents.get(t, [])
+#     assert drawn, f"{t}: no entity block"
+#     assert all(n in cols[t] for n, _ in drawn), f"{t}: unknown attribute"
+#     assert all((k != "PK" or n in pks.get(t, set())) and
+#                (k != "FK" or n in fks.get(t, set())) for n, k in drawn), t

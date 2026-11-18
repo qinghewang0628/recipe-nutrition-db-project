@@ -42,6 +42,16 @@ erDiagram
     recipes  ||--|| recipe_search_document : "indexed as"
     ingredient_master ||--|| ingredient_stats : "weighted by"
 
+    cuisines {
+        text    cuisine PK
+        text    categories
+        integer recipe_count
+        integer category_count
+    }
+    cuisine_category {
+        text cuisine PK
+        text category PK
+    }
     recipes {
         text     recipe_id PK
         text     recipe_name
@@ -74,6 +84,20 @@ erDiagram
         numeric  qty_approx_g
         boolean  qty_is_placeholder
     }
+    steps {
+        text     recipe_id PK
+        smallint step_number PK
+        text     step_description
+        smallint estimated_time_minutes
+    }
+    nutrition {
+        text     recipe_id PK
+        integer  calories
+        numeric  protein_g
+        numeric  carbohydrates_g
+        numeric  fat_g
+        numeric  sodium_mg
+    }
     ingredient_stats {
         text    canonical_id PK
         integer doc_freq
@@ -87,6 +111,14 @@ erDiagram
         boolean  has_peanut
         smallint allergen_count
     }
+    recipe_dietary_audit {
+        text     recipe_id PK
+        boolean  is_vegetarian_raw
+        boolean  is_vegetarian_calc
+        boolean  is_gluten_free_raw
+        boolean  is_gluten_free_calc
+        smallint conflict_count
+    }
     recipe_search_document {
         text    recipe_id PK
         text    search_document
@@ -95,8 +127,16 @@ erDiagram
 ```
 
 Cardinalities: `||--o{` is one-to-zero-or-many, `||--||` is exactly one-to-one.
+All eleven tables appear with their key attributes (the full column list is
+`sql/schema.sql`; the diagram keeps only what a reader needs to follow a join).
 The two links to `ingredient_master` are why q1 can weight a match without
 touching the 95,912-row fact table twice.
+
+The diagram is Mermaid source, so it renders in the README/VS Code preview and
+on GitHub without an extra file; for the PDF report export it with
+`npx @mermaid-js/mermaid-cli -i docs/schema-design.md -o schema.png` (needs a
+one-off `npm install`). `docs/evidence/er_attribute_check.txt` records the check
+that every attribute drawn here exists as a column in `recipe_db`.
 
 ## 3. Functional dependencies and 3NF
 
@@ -155,7 +195,7 @@ that the constraints can actually enforce.
 
 | Index | Query | One-line reason |
 |---|---|---|
-| `idx_ingredients_canonical` | q1 | q1 enters through the ingredient dimension; `INCLUDE (recipe_id)` keeps the lookup index-only |
+| `idx_ingredients_canonical` | q1 | q1 enters through the ingredient dimension; `INCLUDE (recipe_id)` keeps the lookup index-only. It stops reading a 293 MB heap at x20, which saves 91 ms per call (1.3×) there; at x1 the heap is small enough to scan and it is a tie |
 | `idx_recipes_cuisine_category_time` | q2 | the two equality filters must lead, the time range follows, display columns ride along in `INCLUDE` |
 | `idx_recipes_veg_gf_time` | q2 | the dietary filter matches ~17% of recipes, so a partial index stores only those rows, already ordered by time |
 | `idx_search_document_fts` | q3 | `@@` lookups are what GIN exists for; the indexed expression must be repeated verbatim in the query or the index is ignored |

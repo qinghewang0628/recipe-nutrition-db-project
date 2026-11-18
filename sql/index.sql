@@ -20,6 +20,11 @@
 -- group by recipe_id. The index is on the filtered column, and recipe_id is
 -- carried in the leaf pages (INCLUDE) so the scan can be index-only: q1 needs
 -- no other column from this table (names and units live in the dimensions).
+--
+-- This is the one index whose payoff depends on scale: at x1 the 15 MB heap
+-- fits in cache and the index only changes the plan, not the runtime (a tie,
+-- 1.05x by minimum); at x20 (293 MB) it is worth 1.3x, i.e. 91 ms per call of
+-- the 361 ms an unindexed scan costs. Numbers in docs/scale_experiment.md.
 -- ---------------------------------------------------------------------------
 CREATE INDEX IF NOT EXISTS idx_ingredients_canonical
     ON ingredients (canonical_id) INCLUDE (recipe_id);

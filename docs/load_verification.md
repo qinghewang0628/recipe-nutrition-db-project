@@ -1,8 +1,9 @@
 # Load verification and index benchmark (Part B, schema v1.0)
 
-Everything below was produced on a clean database by running the three scripts in
-`sql/` against the eleven cleaned tables delivered by Part A. Raw outputs are in
-`docs/evidence/`.
+Sections 1-5 and 7 come from a clean `recipe_db` built by running the three
+scripts in `sql/` against the eleven cleaned tables delivered by Part A. Section
+6 measures the same data twice, on the x1 tier of the scale experiment; §8 says
+why. Raw outputs are in `docs/evidence/`.
 
 | Item | Value |
 |---|---|
@@ -97,29 +98,49 @@ The list of deliberately unindexed columns and the reason for each is in
 
 ## 6. Timing on the 10k tier (`docs/evidence/timings.csv`)
 
-Warm cache, 5 runs per query, median of `EXPLAIN (ANALYZE)` execution time,
-same result rows in both states (checked with `diff`).
+Two schemas with identical data - `t_small` (all 4 indexes) and `t_small_noidx`
+(same rows, no secondary index, same statistics) - measured in alternating
+blocks, 12 runs per query per configuration. Median of
+`EXPLAIN (ANALYZE)` execution time; both configurations return the same rows
+(`docs/scale_experiment.md` §4 records the plans).
 
 | Query | No indexes | All 4 indexes | Speed-up | Plan change |
 |---|---:|---:|---:|---|
-| q1 reverse ingredient search | 8.850 ms | 2.644 ms | 3.3× | `Seq Scan on ingredients` (95,912 rows) becomes `Index Only Scan using idx_ingredients_canonical` (1,338 rows) |
-| q2 multi-condition filter | 1.015 ms | 0.511 ms | 2.0× | `Seq Scan on recipes` + 9,983 rejected rows becomes `Bitmap Index Scan on idx_recipes_veg_gf_time` (496 rows), then `Index Cond: total_time_minutes <= 90` |
-| q3 full-text search | 284.914 ms | 13.702 ms | 20.8× | `Seq Scan on recipe_search_document` with 9,997 `to_tsvector` calls becomes `Bitmap Index Scan on idx_search_document_fts` (415 rows) |
+| q1 reverse ingredient search | 17.30 ms | 17.41 ms | 1.0x | `Seq Scan on ingredients` (95,912 rows) becomes `Index Only Scan using idx_ingredients_canonical` (1,338 rows per probe, 3 probes) |
+| q2 multi-condition filter | 1.68 ms | 0.60 ms | 2.8x | `Seq Scan on recipes` becomes `Bitmap Index Scan on idx_recipes_veg_gf_time` (496 rows), then `Index Cond: total_time_minutes <= 90` |
+| q3 full-text search | 429.14 ms | 28.57 ms | 15.0x | `Seq Scan on recipe_search_document` with 9,997 `to_tsvector` calls becomes `Bitmap Index Scan on idx_search_document_fts` (415 rows) |
+
+**Correction.** An earlier version of this table measured the indexed
+configuration first and then dropped the indexes for the second group. That
+reported q1 as 8.850 ms -> 2.644 ms (3.3x), which does not survive a fair
+measurement: on a laptop the second group always runs on a throttled CPU, and
+the x1 `ingredients` heap (15 MB) is small enough to scan. Re-measured with the
+two configurations interleaved, q1 is a tie at x1 and the plan is the only
+visible difference. The index does pay on the bigger tiers (1.4x at x5; at x20,
+269.8 ms indexed against 361.2 ms unindexed) - see `docs/scale_experiment.md`
+finding 3.
 
 Two observations worth carrying into the report:
 
 - The 10k tier is small enough that q1 and q2 are already fast without any
-  index (8.9 ms and 1.0 ms). The index wins because it reduces the number of
-  rows *read*, not because the query was slow. q3 is the exception: 285 ms is
-  the cost of tokenising 9,997 documents per call, and only the GIN index removes
-  that work.
+  index (17.3 ms and 1.7 ms). The indexes reduce the number of rows *read*; they
+  do not remove work that grows with the table - except for q3, where the
+  unindexed cost is one `to_tsvector` per row (429 ms) and only the GIN index
+  removes it.
 - Both `recipes` indexes are needed, and each is chosen for a different filter
-  shape. With the vegetarian + gluten-free filter supplied the planner picks the
-  partial index (0.51 ms); with `cuisine = 'Indian' AND category = 'Main Course'`
-  and no dietary flag it picks the composite index (0.84 ms, `Index Cond:
-  (cuisine = 'Indian' AND category = 'Main Course' AND total_time_minutes <= 90)`).
+  shape. With the vegetarian + gluten-free filter supplied the planner picks
+  the partial index (`Bitmap Index Scan on idx_recipes_veg_gf_time`); with
+  `cuisine = 'Indian' AND category = 'Main Course'` supplied and no dietary
+  flag it picks the composite one (`Index Cond: (cuisine = 'Indian' AND
+  category = 'Main Course' AND total_time_minutes <= 90)`). Flip the parameter
+  row in `sql/queries.sql` and re-run `EXPLAIN` to see both.
 
 ## 7. Plan shapes (`docs/evidence/explain_indexed.txt`, `explain_noindex.txt`)
+
+The two files are full `EXPLAIN (ANALYZE, BUFFERS)` captures from `recipe_db`.
+Only the node types and row estimates are quoted here - the per-node timings in
+those captures predate the interleaved protocol of §6, so §6's totals are the
+ones to trust.
 
 q1, without indexes:
 
@@ -148,16 +169,27 @@ q3, with indexes:
 
 ## 8. Caveats
 
-- These numbers describe the 10k tier only. The medium (100k) and large (1M)
-  tiers are measured separately in `docs/scale_experiment.md`, which is where the
-  index/scale interaction actually shows up.
-- Timings are warm-cache medians on a laptop (Postgres.app, no tuning). They are
-  reproducible on the same machine in the same order, but they are not absolute
-  performance claims.
+- These numbers describe the 10k tier only. The 50k (x5) and 200k (x20) tiers are
+  measured separately in `docs/scale_experiment.md`, which is where the
+  index/scale interaction actually shows up (q1 is a tie at x1 and only 1.3-1.4x
+  at x5/x20, q3 goes from 15x to 22x).
+- The timings were taken on `recipe_scale`'s `t_small`, not on `recipe_db`,
+  because the comparison needs two copies of the same data and `recipe_db` is
+  the deliverable. The two are the same data: `part_a/data/scales/small/*.csv`
+  is byte-identical to `part_a/data/clean/*.csv` (7/7 files, md5), the 4
+  derived tables were proven equal to Part A's with `EXCEPT ALL`
+  (`docs/evidence/derivation_equivalence.txt`), and the plans in §7 match the
+  `t_small` plans line for line.
+- Timings are single-session medians on a laptop (Postgres.app, no tuning), with
+  the indexed and unindexed configurations interleaved so that neither group
+  runs entirely on a throttled CPU. Ratios reproduce between runs; the third
+  significant digit does not (absolute times move by up to 2x between runs on
+  this machine).
 - q3 keeps `ts_headline` inside the outer `SELECT`, after the `LIMIT`, so the
-  measured 13.7 ms includes highlighting of only the 20 returned documents. Run
+  measured 28.6 ms includes highlighting of only the 20 returned documents. Run
   as a single expression over the whole table it would dominate the query.
-- The medium and large tiers contain only 7 of the 11 tables (no
+- The 50k and 200k tiers contain only 7 of the 11 tables (no
   `search_document`, `ingredient_master`, `cuisine_category`, `dietary_audit`),
-  so q2 and q3 cannot run there unmodified. See `docs/scale_experiment.md` for
-  how this was handled.
+  so q1-q3 cannot run there as delivered. Part B rebuilds the 4 missing tables
+  from the 7 shipped ones (`scale/derive_missing_tables.sql`) and verifies the
+  rebuild at x1 with `EXCEPT ALL` - see `docs/scale_experiment.md` §1-2.
