@@ -13,7 +13,7 @@ core queries) is in progress in `sql/`.
 | ---------- | ----- | --------------------------------------------------------------------- |
 | `part_a/`  | A     | Delivered ETL package: cleaning pipeline, 11 cleaned tables, docs     |
 | `sql/`     | B     | `schema.sql` (DDL), `index.sql` (indexes), `queries.sql` (core queries) |
-| `docs/`    | B/D   | ER diagram, load verification, scale experiment, consolidated report  |
+| `docs/`    | B/D   | `schema-design.md` (ER + 3NF), `load_verification.md`, `scale_experiment.md`, consolidated report |
 | `report/`  | D     | Final report and figures                                              |
 | `dataset/` | -     | Raw course CSVs, local only (licence unconfirmed), not committed      |
 
