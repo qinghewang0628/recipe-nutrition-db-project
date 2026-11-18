@@ -1,0 +1,136 @@
+table,column,ordinal,logical_type,key_role,nullable,domain_or_range,description,source_or_transform
+cuisine_metadata.csv,cuisine,1,text,PK,no,Pakistani / Indian / Bangladeshi / Afghan / Fusion,Cuisine code,Raw
+cuisine_metadata.csv,categories,2,text,,no,Comma-separated category list,Categories in this cuisine (denormalised; split before use),Raw
+cuisine_metadata.csv,recipe_count,3,integer,,no,999 ~ 3498,Recipe count for this cuisine (matches the master table),Raw
+recipes_master.csv,recipe_id,1,text,PK,no,RCP00001 ~ RCP09997,Recipe primary key,Raw
+recipes_master.csv,recipe_name,2,text,,no,1 ~ 35 characters,"Recipe name (not unique, 3085 distinct values)",Raw
+recipes_master.csv,cuisine,3,text,FK->cuisine_metadata.cuisine,no,5 values,Cuisine,Raw
+recipes_master.csv,category,4,text,,no,11 values,Category (Main Course / Desserts / ...),Raw
+recipes_master.csv,cooking_method,5,text,,no,8 values,Cooking method,Raw
+recipes_master.csv,difficulty,6,text,,no,Easy / Medium / Hard,Difficulty,Raw
+recipes_master.csv,prep_time_minutes,7,integer,,no,10 ~ 59,Preparation time (minutes),Raw
+recipes_master.csv,cook_time_minutes,8,integer,,no,15 ~ 179,Cooking time (minutes),Raw
+recipes_master.csv,total_time_minutes,9,integer,,no,26 ~ 237; = prep + cook,Total time (minutes),Raw; consistency check 9997/9997 PASS
+recipes_master.csv,servings,10,integer,,no,2 ~ 7,Servings,Raw
+recipes_master.csv,spice_level,11,text,,no,Mild / Medium / Hot / Very Hot,Spice level,Raw
+recipes_master.csv,meal_type,12,text,,no,6 values,Meal type (unconstrained by category; noise column),Raw
+recipes_master.csv,is_vegetarian,13,boolean,,no,True / False,Source vegetarian flag (3259 conflicts with ingredients),Raw; kept in *_raw after cleaning
+recipes_master.csv,is_vegan,14,boolean,,no,True / False,Source vegan flag (1740 conflicts),Raw; kept in *_raw after cleaning
+recipes_master.csv,is_gluten_free,15,boolean,,no,True / False,Source gluten-free flag (5863 conflicts),Raw; kept in *_raw after cleaning
+recipes_master.csv,is_halal,16,boolean,,no,True / False,Source halal flag (cannot be verified from ingredient names),Raw; retained after cleaning and marked is_halal_verifiable=false
+recipes_master.csv,rating,17,decimal,,no,3.5 ~ 5.0,Rating,Raw
+recipes_master.csv,review_count,18,integer,,no,10 ~ 4999,Review count,Raw
+recipes_master.csv,calories_per_serving,19,integer,,no,150 ~ 799,Calories per serving (kcal),Raw; fully consistent with nutrition.calories
+recipes_master.csv,estimated_cost_usd,20,decimal,,no,2.0 ~ 25.0,Estimated cost (USD),Raw
+recipes_master.csv,date_added,21,date,,no,2023-02-16 ~ 2026-02-13,"Date added, ISO-8601",Raw
+recipes_master.csv,is_traditional,22,boolean,,no,True / False,Traditional dish flag,Raw
+recipes_master.csv,is_festival_special,23,boolean,,no,True / False,Festival special flag,Raw
+recipe_ingredients.csv,recipe_id,1,text,"PK(part),FK->recipes_master",no,RCP*,Recipe primary key,Raw
+recipe_ingredients.csv,ingredient_number,2,integer,PK(part),no,1 ~ 19; contiguous per recipe,Ingredient ordinal,Raw; renumbered after cleaning
+recipe_ingredients.csv,ingredient_name,3,text,,no,58 values,Ingredient name (contains synonyms and duplicates),Raw; becomes canonical_name after cleaning
+recipe_ingredients.csv,quantity,4,text,,no,1517 distinct strings,"Raw quantity text (e.g. '1 medium', '933g', 'to taste')",Raw; becomes structured qty_* columns after cleaning
+recipe_ingredients.csv,category,5,text,,no,8 values,Ingredient category (Paneer appears as both Dairy and Proteins),Raw; unified via the lookup table after cleaning
+recipe_nutrition.csv,recipe_id,1,text,"PK,FK->recipes_master",no,RCP*,Recipe primary key,Raw
+recipe_nutrition.csv,calories,2,integer,,no,150 ~ 799,Energy (kcal),Raw
+recipe_nutrition.csv,protein_g,3,integer,,no,5 ~ 49,Protein (g),Raw
+recipe_nutrition.csv,carbohydrates_g,4,integer,,no,30 ~ 79,Carbohydrate (g),Raw
+recipe_nutrition.csv,fat_g,5,integer,,no,10 ~ 39,Fat (g),Raw
+recipe_nutrition.csv,fiber_g,6,integer,,no,2 ~ 14,Fibre (g),Raw
+recipe_nutrition.csv,sugar_g,7,integer,,no,2 ~ 19,Sugar (g),Raw
+recipe_nutrition.csv,sodium_mg,8,integer,,no,200 ~ 1499,Sodium (mg),Raw
+recipe_nutrition.csv,cholesterol_mg,9,integer,,no,0 ~ 99,Cholesterol (mg),Raw
+recipe_nutrition.csv,vitamin_a_percent,10,integer,,no,5 ~ 39,Vitamin A (% daily value),Raw
+recipe_nutrition.csv,vitamin_c_percent,11,integer,,no,5 ~ 59,Vitamin C (% daily value),Raw
+recipe_nutrition.csv,calcium_percent,12,integer,,no,5 ~ 29,Calcium (% daily value),Raw
+recipe_nutrition.csv,iron_percent,13,integer,,no,10 ~ 39,Iron (% daily value),Raw
+recipe_steps.csv,recipe_id,1,text,"PK(part),FK->recipes_master",no,RCP*,Recipe primary key,Raw
+recipe_steps.csv,step_number,2,integer,PK(part),no,1 ~ 11,Step ordinal,Raw
+recipe_steps.csv,step_description,3,text,,no,"20 template strings, at most 59 characters",Step description (template text; synthetic-data signature),Raw; used to assemble the full-text document
+recipe_steps.csv,estimated_time_minutes,4,integer,,no,2 ~ 14,Step duration (sum does not equal total_time; not a business metric),Raw
+recipes.csv (23 raw columns + derived columns),recipe_id,1,text,PK,no,RCP00001 ~ RCP09997,Recipe primary key,Raw
+recipes.csv (23 raw columns + derived columns),recipe_name,2,text,,no,1 ~ 35 characters,"Recipe name (not unique, 3085 distinct values)",Raw
+recipes.csv (23 raw columns + derived columns),cuisine,3,text,FK->cuisine_metadata.cuisine,no,5 values,Cuisine,Raw
+recipes.csv (23 raw columns + derived columns),category,4,text,,no,11 values,Category (Main Course / Desserts / ...),Raw
+recipes.csv (23 raw columns + derived columns),cooking_method,5,text,,no,8 values,Cooking method,Raw
+recipes.csv (23 raw columns + derived columns),difficulty,6,text,,no,Easy / Medium / Hard,Difficulty,Raw
+recipes.csv (23 raw columns + derived columns),prep_time_minutes,7,integer,,no,10 ~ 59,Preparation time (minutes),Raw
+recipes.csv (23 raw columns + derived columns),cook_time_minutes,8,integer,,no,15 ~ 179,Cooking time (minutes),Raw
+recipes.csv (23 raw columns + derived columns),total_time_minutes,9,integer,,no,26 ~ 237; = prep + cook,Total time (minutes),Raw; consistency check 9997/9997 PASS
+recipes.csv (23 raw columns + derived columns),servings,10,integer,,no,2 ~ 7,Servings,Raw
+recipes.csv (23 raw columns + derived columns),spice_level,11,text,,no,Mild / Medium / Hot / Very Hot,Spice level,Raw
+recipes.csv (23 raw columns + derived columns),meal_type,12,text,,no,6 values,Meal type (unconstrained by category; noise column),Raw
+recipes.csv (23 raw columns + derived columns),is_vegetarian,13,boolean,,no,True / False,Source vegetarian flag (3259 conflicts with ingredients),Raw; kept in *_raw after cleaning
+recipes.csv (23 raw columns + derived columns),is_vegan,14,boolean,,no,True / False,Source vegan flag (1740 conflicts),Raw; kept in *_raw after cleaning
+recipes.csv (23 raw columns + derived columns),is_gluten_free,15,boolean,,no,True / False,Source gluten-free flag (5863 conflicts),Raw; kept in *_raw after cleaning
+recipes.csv (23 raw columns + derived columns),is_halal,16,boolean,,no,True / False,Source halal flag (cannot be verified from ingredient names),Raw; retained after cleaning and marked is_halal_verifiable=false
+recipes.csv (23 raw columns + derived columns),rating,17,decimal,,no,3.5 ~ 5.0,Rating,Raw
+recipes.csv (23 raw columns + derived columns),review_count,18,integer,,no,10 ~ 4999,Review count,Raw
+recipes.csv (23 raw columns + derived columns),calories_per_serving,19,integer,,no,150 ~ 799,Calories per serving (kcal),Raw; fully consistent with nutrition.calories
+recipes.csv (23 raw columns + derived columns),estimated_cost_usd,20,decimal,,no,2.0 ~ 25.0,Estimated cost (USD),Raw
+recipes.csv (23 raw columns + derived columns),date_added,21,date,,no,2023-02-16 ~ 2026-02-13,"Date added, ISO-8601",Raw
+recipes.csv (23 raw columns + derived columns),is_traditional,22,boolean,,no,True / False,Traditional dish flag,Raw
+recipes.csv (23 raw columns + derived columns),is_festival_special,23,boolean,,no,True / False,Festival special flag,Raw
+recipes.csv (23 raw columns + derived columns),is_vegetarian/is_vegan/is_gluten_free,24,boolean,,no,true / false,Verifiable dietary flags recomputed from the ingredient set,clean.py step 4; see dietary_rules.csv
+recipes.csv (23 raw columns + derived columns),is_halal,25,boolean,,no,true / false,Source label retained (cannot be verified from ingredient names),Passed through unchanged + is_halal_verifiable=false
+recipes.csv (23 raw columns + derived columns),is_*_raw,26,boolean,,no,true / false,Four raw source flags kept for audit and rollback,Kept verbatim
+recipes.csv (23 raw columns + derived columns),is_halal_verifiable,27,boolean,,no,false,Explicitly marks this flag as unverifiable,Constant
+recipes.csv (23 raw columns + derived columns),dietary_conflict_count,28,integer,,no,0 ~ 3,Number of conflicts among the three verifiable flags,recipe_dietary_audit.conflict_count
+recipes.csv (23 raw columns + derived columns),ingredient_count / step_count / allergen_count,29,integer,,no,>= 0,Derived counts; avoids runtime JOIN aggregation,Derived in clean.py
+recipes.csv (23 raw columns + derived columns),estimated_total_g / estimated_g_per_serving,30,decimal,,no,<= 1200 g/serving,Estimated total ingredient mass after clipping,units.py + clipping policy
+recipes.csv (23 raw columns + derived columns),qty_clipped_recipe,31,boolean,,no,true / false,Whether this recipe was clipped,clean.py step 3
+ingredients.csv (structured),canonical_id,1,text,FK->ingredient_master,no,ING_*,Canonical ingredient id (the only downstream key),ingredient_synonyms.csv
+ingredients.csv (structured),canonical_name,2,text,,no,Canonical ingredient name,Ingredient name after synonym merging,ingredient_synonyms.csv
+ingredients.csv (structured),ingredient_name_raw,3,text,,no,Raw names (joined with | when merged),Raw name kept for audit,Kept verbatim
+ingredients.csv (structured),quantity_raw,4,text,,no,Raw quantity strings (joined with | when merged),Raw quantity kept for audit,Kept verbatim
+ingredients.csv (structured),qty_value,5,decimal,,yes,>= 0; empty for placeholders,Parsed numeric value,units.parse_quantity
+ingredients.csv (structured),qty_unit_raw / qty_unit_norm,6,text,,no,g/ml/tbsp/tsp/cloves/medium or a placeholder code,Raw unit token / normalised unit,unit_conversion.csv
+ingredients.csv (structured),qty_dimension,7,text,,no,mass / volume / count / na,Dimension,unit_conversion.csv
+ingredients.csv (structured),qty_canonical_value,8,decimal,,yes,>= 0,Value after canonical conversion,"mass->g, volume->ml, count->piece"
+ingredients.csv (structured),qty_canonical_unit,9,text,,yes,g / ml / piece / placeholder code,Unit after canonical conversion,unit_conversion.csv
+ingredients.csv (structured),qty_approx_g,10,decimal,,yes,>= 0,Estimated grams for shopping lists and cost roll-ups (approximate density),gram_equivalent_per_unit
+ingredients.csv (structured),qty_is_placeholder / qty_placeholder_code,11,boolean,,no,TO_TASTE / AS_NEEDED / ...,Placeholder flag and canonical code,PLACEHOLDER_CODES
+ingredients.csv (structured),qty_parse_status,12,text,,no,OK / OK_UNITLESS / PLACEHOLDER / UNPARSEABLE / UNKNOWN_UNIT,Parse status (verification requires the last two to be 0),units.parse_quantity
+ingredients.csv (structured),merged_row_count / merged_units,13,integer,,no,>= 1,Row count and units before merging; deduplication audit,clean.py step 2
+ingredients.csv (structured),qty_clipped,14,boolean,,no,true / false,Whether this row was scaled by clipping,clean.py step 3
+ingredients.csv (structured),allergen_flags / match_status,15,text,,no,Allergen list / match type,Derived allergens and synonym match type,allergen_map.csv
+nutrition.csv / steps.csv / cuisines.csv,recipe_id,1,text,"PK,FK->recipes_master",no,RCP*,Recipe primary key,Raw
+nutrition.csv / steps.csv / cuisines.csv,calories,2,integer,,no,150 ~ 799,Energy (kcal),Raw
+nutrition.csv / steps.csv / cuisines.csv,protein_g,3,integer,,no,5 ~ 49,Protein (g),Raw
+nutrition.csv / steps.csv / cuisines.csv,carbohydrates_g,4,integer,,no,30 ~ 79,Carbohydrate (g),Raw
+nutrition.csv / steps.csv / cuisines.csv,fat_g,5,integer,,no,10 ~ 39,Fat (g),Raw
+nutrition.csv / steps.csv / cuisines.csv,fiber_g,6,integer,,no,2 ~ 14,Fibre (g),Raw
+nutrition.csv / steps.csv / cuisines.csv,sugar_g,7,integer,,no,2 ~ 19,Sugar (g),Raw
+nutrition.csv / steps.csv / cuisines.csv,sodium_mg,8,integer,,no,200 ~ 1499,Sodium (mg),Raw
+nutrition.csv / steps.csv / cuisines.csv,cholesterol_mg,9,integer,,no,0 ~ 99,Cholesterol (mg),Raw
+nutrition.csv / steps.csv / cuisines.csv,vitamin_a_percent,10,integer,,no,5 ~ 39,Vitamin A (% daily value),Raw
+nutrition.csv / steps.csv / cuisines.csv,vitamin_c_percent,11,integer,,no,5 ~ 59,Vitamin C (% daily value),Raw
+nutrition.csv / steps.csv / cuisines.csv,calcium_percent,12,integer,,no,5 ~ 29,Calcium (% daily value),Raw
+nutrition.csv / steps.csv / cuisines.csv,iron_percent,13,integer,,no,10 ~ 39,Iron (% daily value),Raw
+nutrition.csv / steps.csv / cuisines.csv,recipe_id,14,text,"PK(part),FK->recipes_master",no,RCP*,Recipe primary key,Raw
+nutrition.csv / steps.csv / cuisines.csv,step_number,15,integer,PK(part),no,1 ~ 11,Step ordinal,Raw
+nutrition.csv / steps.csv / cuisines.csv,step_description,16,text,,no,"20 template strings, at most 59 characters",Step description (template text; synthetic-data signature),Raw; used to assemble the full-text document
+nutrition.csv / steps.csv / cuisines.csv,estimated_time_minutes,17,integer,,no,2 ~ 14,Step duration (sum does not equal total_time; not a business metric),Raw
+nutrition.csv / steps.csv / cuisines.csv,cuisine,18,text,PK,no,Pakistani / Indian / Bangladeshi / Afghan / Fusion,Cuisine code,Raw
+nutrition.csv / steps.csv / cuisines.csv,categories,19,text,,no,Comma-separated category list,Categories in this cuisine (denormalised; split before use),Raw
+nutrition.csv / steps.csv / cuisines.csv,recipe_count,20,integer,,no,999 ~ 3498,Recipe count for this cuisine (matches the master table),Raw
+cuisine_category.csv,cuisine,1,text,"PK(part),FK->cuisines",no,5 values,Cuisine,Split from the comma-separated categories into a 3NF link table
+cuisine_category.csv,category,2,text,PK(part),no,11 values,Category,As above
+recipe_allergens.csv,recipe_id,1,text,"PK,FK->recipes",no,RCP*,Recipe primary key,Derived from the union of ingredient allergens
+recipe_allergens.csv,allergens,2,text,,no,"10 allergen classes, separated by | or none",All allergens for this recipe,allergen_map.csv
+recipe_allergens.csv,allergen_count,3,integer,,no,0 ~ n,Number of allergen classes,Derived
+recipe_allergens.csv,has_<allergen>,4,boolean,,no,true/false x 10,Ten indexable boolean columns for allergen exclusion queries,Derived
+recipe_dietary_audit.csv,recipe_id,1,text,"PK,FK->recipes",no,RCP*,Recipe primary key,-
+recipe_dietary_audit.csv,<flag>_raw / <flag>_calc,2,boolean,,no,true/false x 3,Raw and recomputed flags compared field by field,clean.py step 4
+recipe_dietary_audit.csv,is_halal_raw / halal_proxy,3,boolean,,no,true/false,Raw halal flag and conservative proxy (does not overwrite the business column),dietary_rules.csv
+recipe_dietary_audit.csv,conflict_count / conflict_flags,4,integer,,no,0 ~ 3,Conflict count and field list; source for report and video figures,Derived
+ingredient_master.csv,canonical_id,1,text,PK,no,ING_*,Canonical ingredient id,allergen_map.csv
+ingredient_master.csv,canonical_name / category / allergens,2,text,,no,-,"Name, unified category and allergens",allergen_map.csv
+ingredient_master.csv,is_animal / is_meat_fish / is_gluten_source,3,boolean,,no,true/false,Predicates used to recompute dietary flags,dietary_rules.csv
+ingredient_stats.csv,canonical_id,1,text,"PK,FK->ingredient_master",no,ING_*,Canonical ingredient id,-
+ingredient_stats.csv,doc_freq / total_recipes,2,integer,,no,1 ~ 9997,Recipes containing this ingredient / total recipes,Computed from the cleaned ingredient table
+ingredient_stats.csv,idf,3,decimal,,no,ln((N+1)/(df+1))+1,Rarity weight supporting weighted-overlap ranking,Derived
+ingredient_stats.csv,idf_norm / rarity_rank,4,decimal,,no,0 ~ 1 / 1 ~ n,Normalised weight and rarity rank,Derived
+ingredient_stats.csv,avg_approx_g / share_pct,5,decimal,,no,>= 0,Mean estimated grams and coverage,Derived
+recipe_search_document.csv,recipe_id,1,text,"PK,FK->recipes",no,RCP*,Recipe primary key,-
+recipe_search_document.csv,search_document,2,text,,no,Concatenated text,"Name + cuisine + category + method + ingredients + steps, for full-text indexing",Derived
+recipe_search_document.csv,doc_length,3,integer,,no,>= 0,Document length for BM25 / length-normalisation experiments,Derived

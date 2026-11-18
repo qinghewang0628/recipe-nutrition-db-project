@@ -1,0 +1,29 @@
+{
+  "threshold_bytes": 52428800,
+  "files": [
+    {
+      "csv": "data/scales/large/ingredients.csv",
+      "gz": "data/scales/large/ingredients.csv.gz",
+      "csv_bytes": 252077505,
+      "gz_bytes": 33523607,
+      "ratio": "13.3%",
+      "sha256_gz": "ce27c6e553b25984cec829fba965449e5c54190d9882eef60d8190865808e19f"
+    },
+    {
+      "csv": "data/scales/large/steps.csv",
+      "gz": "data/scales/large/steps.csv.gz",
+      "csv_bytes": 95344090,
+      "gz_bytes": 7662676,
+      "ratio": "8.0%",
+      "sha256_gz": "ce1baddae0d51162c24e0650ffc6c87c750d5e52f601ec830f44126689947932"
+    },
+    {
+      "csv": "data/scales/medium/ingredients.csv",
+      "gz": "data/scales/medium/ingredients.csv.gz",
+      "csv_bytes": 62887348,
+      "gz_bytes": 8376310,
+      "ratio": "13.3%",
+      "sha256_gz": "0dfc05675ed418199946cc8e0a7347c5ec6d46d71667bd0ba5897bb61d23cb73"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# Raw course CSVs are not redistributed; see data/raw/NOTICE.md.
+data/raw/*.csv
+archive-datasets/
+
+# Scale CSVs above 50 MB are committed as .csv.gz; restore with `make unpack`.
+data/scales/medium/ingredients.csv
+data/scales/large/ingredients.csv
+data/scales/large/steps.csv
+
+*.tmp
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/

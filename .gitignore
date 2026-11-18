@@ -218,3 +218,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------------------
+# Project-specific rules (DSC5003 group project)
+# ---------------------------------------------------------------------------
+
+# Raw course CSVs: licence unconfirmed, do not redistribute.
+dataset/
+part_a/data/raw/
+archive-datasets/
+
+# Scale tiers are rebuilt locally with `python make.py scale`.
+# medium/large CSV are 16-240 MB each and exceed the GitHub file limit.
+part_a/data/scales/medium/*.csv
+part_a/data/scales/large/*.csv
+
+# macOS / editor noise
+.DS_Store
+.idea/
+

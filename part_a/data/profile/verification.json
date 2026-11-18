@@ -1,0 +1,308 @@
+{
+  "generated_at_utc": "2026-11-16T12:46:57Z",
+  "total_checks": 50,
+  "passed": 50,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "Raw CSV SHA-256 values match the manifest",
+      "group": "Input integrity",
+      "status": "PASS",
+      "detail": "5/5 match; directory archive-datasets"
+    },
+    {
+      "name": "Raw files are present and unmodified",
+      "group": "Input integrity",
+      "status": "PASS",
+      "detail": "All 5 files present"
+    },
+    {
+      "name": "All four lookup tables are present and non-empty",
+      "group": "Input integrity",
+      "status": "PASS",
+      "detail": "synonyms=113, allergen=57, units=10"
+    },
+    {
+      "name": "recipes.recipe_id unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "9,997 rows / 9,997 unique keys (recipe_id)"
+    },
+    {
+      "name": "nutrition.recipe_id unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "9,997 rows / 9,997 unique keys (recipe_id)"
+    },
+    {
+      "name": "recipe_allergens.recipe_id unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "9,997 rows / 9,997 unique keys (recipe_id)"
+    },
+    {
+      "name": "recipe_dietary_audit.recipe_id unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "9,997 rows / 9,997 unique keys (recipe_id)"
+    },
+    {
+      "name": "ingredient_master.canonical_id unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "57 rows / 57 unique keys (canonical_id)"
+    },
+    {
+      "name": "ingredient_stats.canonical_id unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "57 rows / 57 unique keys (canonical_id)"
+    },
+    {
+      "name": "recipe_search_document.recipe_id unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "9,997 rows / 9,997 unique keys (recipe_id)"
+    },
+    {
+      "name": "ingredients composite key unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "95,912 rows / 95,912 unique keys (recipe_id+ingredient_number)"
+    },
+    {
+      "name": "steps composite key unique",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "84,616 rows / 84,616 unique keys (recipe_id+step_number)"
+    },
+    {
+      "name": "ingredients has no orphan recipe_id",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "orphans=0"
+    },
+    {
+      "name": "nutrition has no orphan recipe_id",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "orphans=0"
+    },
+    {
+      "name": "steps has no orphan recipe_id",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "orphans=0"
+    },
+    {
+      "name": "recipe_allergens has no orphan recipe_id",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "orphans=0"
+    },
+    {
+      "name": "recipe_dietary_audit has no orphan recipe_id",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "orphans=0"
+    },
+    {
+      "name": "recipe_search_document has no orphan recipe_id",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "orphans=0"
+    },
+    {
+      "name": "Every recipe has ingredients, nutrition and steps",
+      "group": "Keys and integrity",
+      "status": "PASS",
+      "detail": "recipes 9,997; ingredients/nutrition/steps cover 9997/9997/9997"
+    },
+    {
+      "name": "ingredient_number is contiguous 1..n per recipe",
+      "group": "Cleaning rules",
+      "status": "PASS",
+      "detail": "9,997 recipes all contiguous"
+    },
+    {
+      "name": "No duplicate (recipe_id, canonical_id) after cleaning",
+      "group": "Cleaning rules",
+      "status": "PASS",
+      "detail": "duplicate groups=0"
+    },
+    {
+      "name": "All quantities parse (UNPARSEABLE/UNKNOWN_UNIT = 0)",
+      "group": "Cleaning rules",
+      "status": "PASS",
+      "detail": "parse status={'OK': 86972, 'PLACEHOLDER': 8940}"
+    },
+    {
+      "name": "Placeholders are coded and numeric fields are empty",
+      "group": "Cleaning rules",
+      "status": "PASS",
+      "detail": "placeholder rows=8940"
+    },
+    {
+      "name": "Non-placeholder rows have value, unit and grams",
+      "group": "Cleaning rules",
+      "status": "PASS",
+      "detail": "canonical units={'piece': 26302, '': 8940, 'g': 16958, 'ml': 43712}"
+    },
+    {
+      "name": "Every canonical_id exists in the allergen map",
+      "group": "Cleaning rules",
+      "status": "PASS",
+      "detail": "synonyms=57, allergen_map=57"
+    },
+    {
+      "name": "Category conflicts resolved (Paneer = Dairy)",
+      "group": "Cleaning rules",
+      "status": "PASS",
+      "detail": "canonical ingredients=57"
+    },
+    {
+      "name": "is_vegetarian/vegan/gluten_free match the recomputed values",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "checked 9,997 recipes"
+    },
+    {
+      "name": "is_halal keeps the source value and is marked unverifiable",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "No unverifiable inference is written as fact"
+    },
+    {
+      "name": "recipe_dietary_audit conflict counts are reproducible",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "labels corrected=10,862"
+    },
+    {
+      "name": "recipe_allergens equals the union of ingredient allergens",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "recipes with an allergen=9,132"
+    },
+    {
+      "name": "calories_per_serving equals nutrition.calories",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "mismatches=0"
+    },
+    {
+      "name": "prep + cook = total_time",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "passed 9,997/9,997"
+    },
+    {
+      "name": "Estimated grams per serving stay within the cap",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "cap=1200 g/serving; clipped recipes=143"
+    },
+    {
+      "name": "qty_clipped agrees with recipes.qty_clipped_recipe",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "Row-by-row agreement"
+    },
+    {
+      "name": "Full-text documents cover every recipe and are non-empty",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "9,997 documents"
+    },
+    {
+      "name": "ingredient_stats.idf is reproducible from doc_freq",
+      "group": "Semantic consistency",
+      "status": "PASS",
+      "detail": "IDF weights for 57 ingredients"
+    },
+    {
+      "name": "small recipes = baseline x 1",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "9,997 / expected 9,997"
+    },
+    {
+      "name": "small keys unique and ingredients not orphaned",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "recipes 9,997, ingredients 95,912"
+    },
+    {
+      "name": "small has no duplicate (recipe_id, canonical_id)",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "No duplicates"
+    },
+    {
+      "name": "small grams per serving stay within the cap",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "All compliant"
+    },
+    {
+      "name": "medium recipes = baseline x 5",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "49,985 / expected 49,985"
+    },
+    {
+      "name": "medium keys unique and ingredients not orphaned",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "recipes 49,985, ingredients 472,756"
+    },
+    {
+      "name": "medium has no duplicate (recipe_id, canonical_id)",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "No duplicates"
+    },
+    {
+      "name": "medium grams per serving stay within the cap",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "All compliant"
+    },
+    {
+      "name": "large recipes = baseline x 20",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "199,940 / expected 199,940"
+    },
+    {
+      "name": "large keys unique and ingredients not orphaned",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "recipes 199,940, ingredients 1,890,743"
+    },
+    {
+      "name": "large has no duplicate (recipe_id, canonical_id)",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "No duplicates"
+    },
+    {
+      "name": "large grams per serving stay within the cap",
+      "group": "Scale tiers",
+      "status": "PASS",
+      "detail": "All compliant"
+    },
+    {
+      "name": "make seed is idempotent: two rebuilds are byte-identical",
+      "group": "Reproducibility",
+      "status": "PASS",
+      "detail": "Two independent rebuilds are byte-identical"
+    },
+    {
+      "name": "All checksums in data/manifest.json match",
+      "group": "Reproducibility",
+      "status": "PASS",
+      "detail": "16 manifest checksums match"
+    }
+  ]
+}

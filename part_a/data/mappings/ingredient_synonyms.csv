@@ -1,0 +1,114 @@
+alias,alias_type,canonical_id,canonical_name,note
+All-Purpose Flour,merge,ING_WHEAT_FLOUR,Wheat Flour,Synonym of Wheat Flour (both wheat flour); one canonical id for indexing
+Almonds,exact,ING_ALMONDS,Almonds,Raw name present in the dataset
+Basmati Rice,exact,ING_BASMATI_RICE,Basmati Rice,Raw name present in the dataset
+Bay Leaf,exact,ING_BAY_LEAF,Bay Leaf,Raw name present in the dataset
+Beef,exact,ING_BEEF,Beef,Raw name present in the dataset
+Bell Pepper,exact,ING_BELL_PEPPER,Bell Pepper,Raw name present in the dataset
+Black Pepper,exact,ING_BLACK_PEPPER,Black Pepper,Raw name present in the dataset
+Butter,exact,ING_BUTTER,Butter,Raw name present in the dataset
+Cardamom,exact,ING_CARDAMOM,Cardamom,Raw name present in the dataset
+Carrot,exact,ING_CARROT,Carrot,Raw name present in the dataset
+Cashews,exact,ING_CASHEWS,Cashews,Raw name present in the dataset
+Cauliflower,exact,ING_CAULIFLOWER,Cauliflower,Raw name present in the dataset
+Chicken,exact,ING_CHICKEN,Chicken,Raw name present in the dataset
+Chickpea Flour,exact,ING_CHICKPEA_FLOUR,Chickpea Flour,Raw name present in the dataset
+Chickpeas,exact,ING_CHICKPEAS,Chickpeas,Raw name present in the dataset
+Cinnamon,exact,ING_CINNAMON,Cinnamon,Raw name present in the dataset
+Cloves,exact,ING_CLOVES,Cloves,Raw name present in the dataset
+Coconut Milk,exact,ING_COCONUT_MILK,Coconut Milk,Raw name present in the dataset
+Coriander,exact,ING_CORIANDER,Coriander,Raw name present in the dataset
+Cream,exact,ING_CREAM,Cream,Raw name present in the dataset
+Cumin,exact,ING_CUMIN,Cumin,Raw name present in the dataset
+Curry Leaves,exact,ING_CURRY_LEAVES,Curry Leaves,Raw name present in the dataset
+Eggs,exact,ING_EGGS,Eggs,Raw name present in the dataset
+Fenugreek Leaves,exact,ING_FENUGREEK_LEAVES,Fenugreek Leaves,Raw name present in the dataset
+Fish,exact,ING_FISH,Fish,Raw name present in the dataset
+Fresh Coriander,exact,ING_FRESH_CORIANDER,Fresh Coriander,Raw name present in the dataset
+Garam Masala,exact,ING_GARAM_MASALA,Garam Masala,Raw name present in the dataset
+Garlic,exact,ING_GARLIC,Garlic,Raw name present in the dataset
+Ghee,exact,ING_GHEE,Ghee,Raw name present in the dataset
+Ginger,exact,ING_GINGER,Ginger,Raw name present in the dataset
+Green Chili,exact,ING_GREEN_CHILI,Green Chili,Raw name present in the dataset
+Lemon Juice,exact,ING_LEMON_JUICE,Lemon Juice,Raw name present in the dataset
+Lentils (Dal),exact,ING_LENTILS_DAL,Lentils (Dal),Raw name present in the dataset
+Milk,exact,ING_MILK,Milk,Raw name present in the dataset
+Mint Leaves,exact,ING_MINT_LEAVES,Mint Leaves,Raw name present in the dataset
+Mustard Seeds,exact,ING_MUSTARD_SEEDS,Mustard Seeds,Raw name present in the dataset
+Mutton,exact,ING_MUTTON,Mutton,Raw name present in the dataset
+Oil,exact,ING_OIL,Oil,Raw name present in the dataset
+Onion,exact,ING_ONION,Onion,Raw name present in the dataset
+Paneer,exact,ING_PANEER,Paneer,Raw name present in the dataset
+Peas,exact,ING_PEAS,Peas,Raw name present in the dataset
+Potato,exact,ING_POTATO,Potato,Raw name present in the dataset
+Raisins,exact,ING_RAISINS,Raisins,Raw name present in the dataset
+Red Chili Powder,exact,ING_RED_CHILI_POWDER,Red Chili Powder,Raw name present in the dataset
+Salt,exact,ING_SALT,Salt,Raw name present in the dataset
+Semolina,exact,ING_SEMOLINA,Semolina,Raw name present in the dataset
+Sesame Seeds,exact,ING_SESAME_SEEDS,Sesame Seeds,Raw name present in the dataset
+Shrimp,exact,ING_SHRIMP,Shrimp,Raw name present in the dataset
+Spinach,exact,ING_SPINACH,Spinach,Raw name present in the dataset
+Sugar,exact,ING_SUGAR,Sugar,Raw name present in the dataset
+Tamarind Paste,exact,ING_TAMARIND_PASTE,Tamarind Paste,Raw name present in the dataset
+Tofu,exact,ING_TOFU,Tofu,Raw name present in the dataset
+Tomato,exact,ING_TOMATO,Tomato,Raw name present in the dataset
+Turmeric,exact,ING_TURMERIC,Turmeric,Raw name present in the dataset
+Vinegar,exact,ING_VINEGAR,Vinegar,Raw name present in the dataset
+Water,exact,ING_WATER,Water,Raw name present in the dataset
+Wheat Flour,exact,ING_WHEAT_FLOUR,Wheat Flour,Raw name present in the dataset
+Yogurt,exact,ING_YOGURT,Yogurt,Raw name present in the dataset
+adrak,query_alias,ING_GINGER,Ginger,"Query alias only; used for normalisation, not for merging"
+all purpose flour,query_alias,ING_WHEAT_FLOUR,Wheat Flour,"Query alias only; used for normalisation, not for merging"
+atta,query_alias,ING_WHEAT_FLOUR,Wheat Flour,"Query alias only; used for normalisation, not for merging"
+basmati,query_alias,ING_BASMATI_RICE,Basmati Rice,"Query alias only; used for normalisation, not for merging"
+besan,query_alias,ING_CHICKPEA_FLOUR,Chickpea Flour,"Query alias only; used for normalisation, not for merging"
+capsicum,query_alias,ING_BELL_PEPPER,Bell Pepper,"Query alias only; used for normalisation, not for merging"
+carrots,query_alias,ING_CARROT,Carrot,"Query alias only; used for normalisation, not for merging"
+chana,query_alias,ING_CHICKPEAS,Chickpeas,"Query alias only; used for normalisation, not for merging"
+chilli,query_alias,ING_GREEN_CHILI,Green Chili,"Query alias only; used for normalisation, not for merging"
+chole,query_alias,ING_CHICKPEAS,Chickpeas,"Query alias only; used for normalisation, not for merging"
+cilantro,query_alias,ING_FRESH_CORIANDER,Fresh Coriander,"Query alias only; used for normalisation, not for merging"
+clarified butter,query_alias,ING_GHEE,Ghee,"Query alias only; used for normalisation, not for merging"
+coriander leaves,query_alias,ING_FRESH_CORIANDER,Fresh Coriander,"Query alias only; used for normalisation, not for merging"
+coriander seeds,query_alias,ING_CORIANDER,Coriander,"Query alias only; used for normalisation, not for merging"
+cottage cheese,query_alias,ING_PANEER,Paneer,"Query alias only; used for normalisation, not for merging"
+curd,query_alias,ING_YOGURT,Yogurt,"Query alias only; used for normalisation, not for merging"
+curry powder,query_alias,ING_GARAM_MASALA,Garam Masala,"Query alias only; used for normalisation, not for merging"
+dahi,query_alias,ING_YOGURT,Yogurt,"Query alias only; used for normalisation, not for merging"
+dal,query_alias,ING_LENTILS_DAL,Lentils (Dal),"Query alias only; used for normalisation, not for merging"
+dhania,query_alias,ING_FRESH_CORIANDER,Fresh Coriander,"Query alias only; used for normalisation, not for merging"
+egg,query_alias,ING_EGGS,Eggs,"Query alias only; used for normalisation, not for merging"
+fenugreek,query_alias,ING_FENUGREEK_LEAVES,Fenugreek Leaves,"Query alias only; used for normalisation, not for merging"
+flour,query_alias,ING_WHEAT_FLOUR,Wheat Flour,"Query alias only; used for normalisation, not for merging"
+garbanzo,query_alias,ING_CHICKPEAS,Chickpeas,"Query alias only; used for normalisation, not for merging"
+gram flour,query_alias,ING_CHICKPEA_FLOUR,Chickpea Flour,"Query alias only; used for normalisation, not for merging"
+green chilli,query_alias,ING_GREEN_CHILI,Green Chili,"Query alias only; used for normalisation, not for merging"
+haldi,query_alias,ING_TURMERIC,Turmeric,"Query alias only; used for normalisation, not for merging"
+imli,query_alias,ING_TAMARIND_PASTE,Tamarind Paste,"Query alias only; used for normalisation, not for merging"
+jeera,query_alias,ING_CUMIN,Cumin,"Query alias only; used for normalisation, not for merging"
+jhinga,query_alias,ING_SHRIMP,Shrimp,"Query alias only; used for normalisation, not for merging"
+kadi patta,query_alias,ING_CURRY_LEAVES,Curry Leaves,"Query alias only; used for normalisation, not for merging"
+lahsun,query_alias,ING_GARLIC,Garlic,"Query alias only; used for normalisation, not for merging"
+lamb,query_alias,ING_MUTTON,Mutton,"Query alias only; used for normalisation, not for merging"
+lentil,query_alias,ING_LENTILS_DAL,Lentils (Dal),"Query alias only; used for normalisation, not for merging"
+lentils,query_alias,ING_LENTILS_DAL,Lentils (Dal),"Query alias only; used for normalisation, not for merging"
+maida,query_alias,ING_WHEAT_FLOUR,Wheat Flour,"Query alias only; used for normalisation, not for merging"
+masoor dal,query_alias,ING_LENTILS_DAL,Lentils (Dal),"Query alias only; used for normalisation, not for merging"
+methi,query_alias,ING_FENUGREEK_LEAVES,Fenugreek Leaves,"Query alias only; used for normalisation, not for merging"
+mint,query_alias,ING_MINT_LEAVES,Mint Leaves,"Query alias only; used for normalisation, not for merging"
+onions,query_alias,ING_ONION,Onion,"Query alias only; used for normalisation, not for merging"
+potatoes,query_alias,ING_POTATO,Potato,"Query alias only; used for normalisation, not for merging"
+prawn,query_alias,ING_SHRIMP,Shrimp,"Query alias only; used for normalisation, not for merging"
+prawns,query_alias,ING_SHRIMP,Shrimp,"Query alias only; used for normalisation, not for merging"
+pudina,query_alias,ING_MINT_LEAVES,Mint Leaves,"Query alias only; used for normalisation, not for merging"
+rai,query_alias,ING_MUSTARD_SEEDS,Mustard Seeds,"Query alias only; used for normalisation, not for merging"
+rava,query_alias,ING_SEMOLINA,Semolina,"Query alias only; used for normalisation, not for merging"
+red chilli powder,query_alias,ING_RED_CHILI_POWDER,Red Chili Powder,"Query alias only; used for normalisation, not for merging"
+rice,query_alias,ING_BASMATI_RICE,Basmati Rice,"Query alias only; used for normalisation, not for merging"
+sooji,query_alias,ING_SEMOLINA,Semolina,"Query alias only; used for normalisation, not for merging"
+tamarind,query_alias,ING_TAMARIND_PASTE,Tamarind Paste,"Query alias only; used for normalisation, not for merging"
+til,query_alias,ING_SESAME_SEEDS,Sesame Seeds,"Query alias only; used for normalisation, not for merging"
+tomatoes,query_alias,ING_TOMATO,Tomato,"Query alias only; used for normalisation, not for merging"
+whole wheat flour,query_alias,ING_WHEAT_FLOUR,Wheat Flour,"Query alias only; used for normalisation, not for merging"
+yoghurt,query_alias,ING_YOGURT,Yogurt,"Query alias only; used for normalisation, not for merging"
+lentils  dal,normalized,ING_LENTILS_DAL,Lentils (Dal),Case / punctuation variant

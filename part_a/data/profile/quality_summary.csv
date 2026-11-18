@@ -1,0 +1,15 @@
+metric,before,after,note
+Ingredient rows,103908,95912,Fewer rows after merging
+Recipes,9997,9997,Unchanged
+Empty cells,0,0,No nulls after cleaning
+Dietary label conflicts (4 flags),12190,0,"10,862 verifiable labels recomputed; 1,328 is_halal conflicts retained and marked unverifiable"
+Recipes with a conflict,7952,0,Zero residual conflicts; the audit table keeps every raw value
+Duplicate ingredient groups,7523,0,Merged by canonical name
+Surplus duplicate rows,7996,0,Quantities summed as estimated grams
+'to taste' placeholder rows,9997,8940,"Coded as TO_TASTE; 1,057 rows merged into quantified rows of the same ingredient"
+Unparseable quantity rows,0,0,All 6 units covered
+Recipes above the cap,143,0,Winsorised to 1200 g/serving
+Distinct quantity strings,1517,-,Reduced to g/ml/piece plus placeholder codes
+Distinct ingredient names,58,57,Synonyms merged to canonical ids
+Ingredients with category conflicts,1,0,Paneer resolved to Dairy
+Recipes with an allergen,-,9132,New table recipe_allergens.csv

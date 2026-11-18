@@ -1,0 +1,1475 @@
+{
+  "stage": "raw",
+  "files": {
+    "cuisine_metadata.csv": {
+      "file": "cuisine_metadata.csv",
+      "rows": 5,
+      "columns": 3,
+      "sha256": "1b1657c9f814d264cc026a316538074c9ba8f39b53d9bd9d9a95c3e4ea71431e",
+      "bytes": 385,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "cuisine": {
+          "empty": 0,
+          "distinct": 5,
+          "type": "text",
+          "top": [
+            [
+              "Pakistani",
+              1
+            ],
+            [
+              "Indian",
+              1
+            ],
+            [
+              "Bangladeshi",
+              1
+            ],
+            [
+              "Afghan",
+              1
+            ],
+            [
+              "Fusion",
+              1
+            ]
+          ]
+        },
+        "categories": {
+          "empty": 0,
+          "distinct": 5,
+          "type": "text",
+          "top": [
+            [
+              "Main Course, Appetizers, Bread, Desserts, Beverages, Street Food",
+              1
+            ],
+            [
+              "Main Course, Appetizers, Bread, Desserts, Beverages, Snacks",
+              1
+            ],
+            [
+              "Main Course, Fish Dishes, Rice Dishes, Desserts, Snacks",
+              1
+            ],
+            [
+              "Main Course, Rice Dishes, Bread, Desserts, Appetizers",
+              1
+            ],
+            [
+              "Indo-Chinese, Street Food, Modern Fusion",
+              1
+            ]
+          ]
+        },
+        "recipe_count": {
+          "empty": 0,
+          "distinct": 5,
+          "type": "numeric",
+          "top": [
+            [
+              "3000",
+              1
+            ],
+            [
+              "3498",
+              1
+            ],
+            [
+              "1500",
+              1
+            ],
+            [
+              "1000",
+              1
+            ],
+            [
+              "999",
+              1
+            ]
+          ],
+          "min": 999.0,
+          "max": 3498.0,
+          "mean": 1999.4
+        }
+      }
+    },
+    "recipes_master.csv": {
+      "file": "recipes_master.csv",
+      "rows": 9997,
+      "columns": 23,
+      "sha256": "f585abc3f5db50d9e1798b04002ebdebee30c5f918c11bd0cc884a720126e31e",
+      "bytes": 1478003,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "recipe_id": {
+          "empty": 0,
+          "distinct": 9997,
+          "type": "text",
+          "top": [
+            [
+              "RCP00001",
+              1
+            ],
+            [
+              "RCP00002",
+              1
+            ],
+            [
+              "RCP00003",
+              1
+            ],
+            [
+              "RCP00004",
+              1
+            ],
+            [
+              "RCP00005",
+              1
+            ]
+          ]
+        },
+        "recipe_name": {
+          "empty": 0,
+          "distinct": 3085,
+          "type": "text",
+          "top": [
+            [
+              "Biryani",
+              336
+            ],
+            [
+              "Chole Bhature",
+              191
+            ],
+            [
+              "Idli",
+              188
+            ],
+            [
+              "Dal Tadka",
+              187
+            ],
+            [
+              "Butter Chicken",
+              185
+            ]
+          ]
+        },
+        "cuisine": {
+          "empty": 0,
+          "distinct": 5,
+          "type": "text",
+          "top": [
+            [
+              "Indian",
+              3498
+            ],
+            [
+              "Pakistani",
+              3000
+            ],
+            [
+              "Bangladeshi",
+              1500
+            ],
+            [
+              "Afghan",
+              1000
+            ],
+            [
+              "Fusion",
+              999
+            ]
+          ]
+        },
+        "category": {
+          "empty": 0,
+          "distinct": 11,
+          "type": "text",
+          "top": [
+            [
+              "Main Course",
+              1583
+            ],
+            [
+              "Desserts",
+              1583
+            ],
+            [
+              "Appetizers",
+              1283
+            ],
+            [
+              "Bread",
+              1283
+            ],
+            [
+              "Beverages",
+              1083
+            ]
+          ]
+        },
+        "cooking_method": {
+          "empty": 0,
+          "distinct": 8,
+          "type": "text",
+          "top": [
+            [
+              "Fried",
+              1294
+            ],
+            [
+              "Pressure-cooked",
+              1286
+            ],
+            [
+              "Baked",
+              1256
+            ],
+            [
+              "Slow-cooked",
+              1252
+            ],
+            [
+              "Grilled",
+              1238
+            ]
+          ]
+        },
+        "difficulty": {
+          "empty": 0,
+          "distinct": 3,
+          "type": "text",
+          "top": [
+            [
+              "Medium",
+              4037
+            ],
+            [
+              "Easy",
+              3917
+            ],
+            [
+              "Hard",
+              2043
+            ]
+          ]
+        },
+        "prep_time_minutes": {
+          "empty": 0,
+          "distinct": 50,
+          "type": "numeric",
+          "top": [
+            [
+              "48",
+              221
+            ],
+            [
+              "38",
+              220
+            ],
+            [
+              "11",
+              220
+            ],
+            [
+              "19",
+              219
+            ],
+            [
+              "45",
+              218
+            ]
+          ],
+          "min": 10.0,
+          "max": 59.0,
+          "mean": 34.4554
+        },
+        "cook_time_minutes": {
+          "empty": 0,
+          "distinct": 165,
+          "type": "numeric",
+          "top": [
+            [
+              "36",
+              84
+            ],
+            [
+              "72",
+              84
+            ],
+            [
+              "105",
+              79
+            ],
+            [
+              "28",
+              76
+            ],
+            [
+              "134",
+              76
+            ]
+          ],
+          "min": 15.0,
+          "max": 179.0,
+          "mean": 96.3015
+        },
+        "total_time_minutes": {
+          "empty": 0,
+          "distinct": 212,
+          "type": "numeric",
+          "top": [
+            [
+              "136",
+              83
+            ],
+            [
+              "84",
+              82
+            ],
+            [
+              "177",
+              81
+            ],
+            [
+              "75",
+              79
+            ],
+            [
+              "129",
+              78
+            ]
+          ],
+          "min": 26.0,
+          "max": 237.0,
+          "mean": 130.7569
+        },
+        "servings": {
+          "empty": 0,
+          "distinct": 6,
+          "type": "numeric",
+          "top": [
+            [
+              "6",
+              1773
+            ],
+            [
+              "7",
+              1721
+            ],
+            [
+              "3",
+              1680
+            ],
+            [
+              "4",
+              1664
+            ],
+            [
+              "5",
+              1655
+            ]
+          ],
+          "min": 2.0,
+          "max": 7.0,
+          "mean": 4.5678
+        },
+        "spice_level": {
+          "empty": 0,
+          "distinct": 4,
+          "type": "text",
+          "top": [
+            [
+              "Medium",
+              3961
+            ],
+            [
+              "Hot",
+              3019
+            ],
+            [
+              "Mild",
+              2017
+            ],
+            [
+              "Very Hot",
+              1000
+            ]
+          ]
+        },
+        "meal_type": {
+          "empty": 0,
+          "distinct": 6,
+          "type": "text",
+          "top": [
+            [
+              "Beverage",
+              1689
+            ],
+            [
+              "Dinner",
+              1678
+            ],
+            [
+              "Dessert",
+              1678
+            ],
+            [
+              "Snack",
+              1663
+            ],
+            [
+              "Lunch",
+              1652
+            ]
+          ]
+        },
+        "is_vegetarian": {
+          "empty": 0,
+          "distinct": 2,
+          "type": "text",
+          "top": [
+            [
+              "False",
+              6263
+            ],
+            [
+              "True",
+              3734
+            ]
+          ]
+        },
+        "is_vegan": {
+          "empty": 0,
+          "distinct": 2,
+          "type": "text",
+          "top": [
+            [
+              "False",
+              9033
+            ],
+            [
+              "True",
+              964
+            ]
+          ]
+        },
+        "is_gluten_free": {
+          "empty": 0,
+          "distinct": 2,
+          "type": "text",
+          "top": [
+            [
+              "False",
+              8470
+            ],
+            [
+              "True",
+              1527
+            ]
+          ]
+        },
+        "is_halal": {
+          "empty": 0,
+          "distinct": 2,
+          "type": "text",
+          "top": [
+            [
+              "True",
+              8669
+            ],
+            [
+              "False",
+              1328
+            ]
+          ]
+        },
+        "rating": {
+          "empty": 0,
+          "distinct": 16,
+          "type": "numeric",
+          "top": [
+            [
+              "4.6",
+              734
+            ],
+            [
+              "3.8",
+              684
+            ],
+            [
+              "3.9",
+              680
+            ],
+            [
+              "3.7",
+              676
+            ],
+            [
+              "4.3",
+              675
+            ]
+          ],
+          "min": 3.5,
+          "max": 5.0,
+          "mean": 4.2498
+        },
+        "review_count": {
+          "empty": 0,
+          "distinct": 4319,
+          "type": "numeric",
+          "top": [
+            [
+              "4791",
+              9
+            ],
+            [
+              "3372",
+              7
+            ],
+            [
+              "108",
+              7
+            ],
+            [
+              "2822",
+              7
+            ],
+            [
+              "1798",
+              7
+            ]
+          ],
+          "min": 10.0,
+          "max": 4999.0,
+          "mean": 2499.6916
+        },
+        "calories_per_serving": {
+          "empty": 0,
+          "distinct": 650,
+          "type": "numeric",
+          "top": [
+            [
+              "482",
+              29
+            ],
+            [
+              "600",
+              29
+            ],
+            [
+              "687",
+              27
+            ],
+            [
+              "653",
+              27
+            ],
+            [
+              "786",
+              26
+            ]
+          ],
+          "min": 150.0,
+          "max": 799.0,
+          "mean": 477.0576
+        },
+        "estimated_cost_usd": {
+          "empty": 0,
+          "distinct": 2271,
+          "type": "numeric",
+          "top": [
+            [
+              "23.83",
+              13
+            ],
+            [
+              "19.92",
+              12
+            ],
+            [
+              "21.41",
+              11
+            ],
+            [
+              "10.74",
+              11
+            ],
+            [
+              "21.63",
+              11
+            ]
+          ],
+          "min": 2.0,
+          "max": 25.0,
+          "mean": 13.5702
+        },
+        "date_added": {
+          "empty": 0,
+          "distinct": 1094,
+          "type": "text",
+          "top": [
+            [
+              "2024-06-16",
+              20
+            ],
+            [
+              "2024-04-10",
+              20
+            ],
+            [
+              "2025-01-11",
+              20
+            ],
+            [
+              "2024-12-29",
+              19
+            ],
+            [
+              "2023-05-22",
+              19
+            ]
+          ]
+        },
+        "is_traditional": {
+          "empty": 0,
+          "distinct": 2,
+          "type": "text",
+          "top": [
+            [
+              "True",
+              5919
+            ],
+            [
+              "False",
+              4078
+            ]
+          ]
+        },
+        "is_festival_special": {
+          "empty": 0,
+          "distinct": 2,
+          "type": "text",
+          "top": [
+            [
+              "False",
+              8525
+            ],
+            [
+              "True",
+              1472
+            ]
+          ]
+        }
+      }
+    },
+    "recipe_ingredients.csv": {
+      "file": "recipe_ingredients.csv",
+      "rows": 103908,
+      "columns": 5,
+      "sha256": "f535e10ccd5929c5ea0d51b528349bf1a2b48e17d3afeab82f9816a06bdf24a2",
+      "bytes": 3712143,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "recipe_id": {
+          "empty": 0,
+          "distinct": 9997,
+          "type": "text",
+          "top": [
+            [
+              "RCP00020",
+              19
+            ],
+            [
+              "RCP00099",
+              19
+            ],
+            [
+              "RCP00115",
+              19
+            ],
+            [
+              "RCP00215",
+              19
+            ],
+            [
+              "RCP00270",
+              19
+            ]
+          ]
+        },
+        "ingredient_number": {
+          "empty": 0,
+          "distinct": 19,
+          "type": "numeric",
+          "top": [
+            [
+              "1",
+              9997
+            ],
+            [
+              "2",
+              9997
+            ],
+            [
+              "3",
+              9997
+            ],
+            [
+              "4",
+              9997
+            ],
+            [
+              "5",
+              9997
+            ]
+          ],
+          "min": 1.0,
+          "max": 19.0,
+          "mean": 6.3516
+        },
+        "ingredient_name": {
+          "empty": 0,
+          "distinct": 58,
+          "type": "text",
+          "top": [
+            [
+              "Salt",
+              11119
+            ],
+            [
+              "Garlic",
+              10708
+            ],
+            [
+              "Onion",
+              10664
+            ],
+            [
+              "Paneer",
+              3100
+            ],
+            [
+              "Eggs",
+              2104
+            ]
+          ]
+        },
+        "quantity": {
+          "empty": 0,
+          "distinct": 1517,
+          "type": "text",
+          "top": [
+            [
+              "to taste",
+              9997
+            ],
+            [
+              "1 tbsp",
+              8169
+            ],
+            [
+              "2 tbsp",
+              8008
+            ],
+            [
+              "4 tbsp",
+              7934
+            ],
+            [
+              "3 tbsp",
+              7905
+            ]
+          ]
+        },
+        "category": {
+          "empty": 0,
+          "distinct": 8,
+          "type": "text",
+          "top": [
+            [
+              "Vegetables",
+              27945
+            ],
+            [
+              "Proteins",
+              18104
+            ],
+            [
+              "Others",
+              17783
+            ],
+            [
+              "Liquids",
+              8110
+            ],
+            [
+              "Dairy",
+              8067
+            ]
+          ]
+        }
+      }
+    },
+    "recipe_nutrition.csv": {
+      "file": "recipe_nutrition.csv",
+      "rows": 9997,
+      "columns": 13,
+      "sha256": "271cdf41fcbb35d0d351f3902880a73a59efa426cc895441ab36a00969af2d18",
+      "bytes": 455981,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "recipe_id": {
+          "empty": 0,
+          "distinct": 9997,
+          "type": "text",
+          "top": [
+            [
+              "RCP00001",
+              1
+            ],
+            [
+              "RCP00002",
+              1
+            ],
+            [
+              "RCP00003",
+              1
+            ],
+            [
+              "RCP00004",
+              1
+            ],
+            [
+              "RCP00005",
+              1
+            ]
+          ]
+        },
+        "calories": {
+          "empty": 0,
+          "distinct": 650,
+          "type": "numeric",
+          "top": [
+            [
+              "482",
+              29
+            ],
+            [
+              "600",
+              29
+            ],
+            [
+              "687",
+              27
+            ],
+            [
+              "653",
+              27
+            ],
+            [
+              "786",
+              26
+            ]
+          ],
+          "min": 150.0,
+          "max": 799.0,
+          "mean": 477.0576
+        },
+        "protein_g": {
+          "empty": 0,
+          "distinct": 45,
+          "type": "numeric",
+          "top": [
+            [
+              "12",
+              282
+            ],
+            [
+              "17",
+              267
+            ],
+            [
+              "18",
+              264
+            ],
+            [
+              "5",
+              262
+            ],
+            [
+              "15",
+              257
+            ]
+          ],
+          "min": 5.0,
+          "max": 49.0,
+          "mean": 26.1957
+        },
+        "carbohydrates_g": {
+          "empty": 0,
+          "distinct": 50,
+          "type": "numeric",
+          "top": [
+            [
+              "78",
+              232
+            ],
+            [
+              "68",
+              224
+            ],
+            [
+              "69",
+              221
+            ],
+            [
+              "40",
+              219
+            ],
+            [
+              "62",
+              219
+            ]
+          ],
+          "min": 30.0,
+          "max": 79.0,
+          "mean": 54.5378
+        },
+        "fat_g": {
+          "empty": 0,
+          "distinct": 30,
+          "type": "numeric",
+          "top": [
+            [
+              "25",
+              484
+            ],
+            [
+              "19",
+              483
+            ],
+            [
+              "27",
+              463
+            ],
+            [
+              "29",
+              454
+            ],
+            [
+              "21",
+              451
+            ]
+          ],
+          "min": 10.0,
+          "max": 39.0,
+          "mean": 24.241
+        },
+        "fiber_g": {
+          "empty": 0,
+          "distinct": 13,
+          "type": "numeric",
+          "top": [
+            [
+              "2",
+              818
+            ],
+            [
+              "14",
+              813
+            ],
+            [
+              "12",
+              785
+            ],
+            [
+              "6",
+              781
+            ],
+            [
+              "3",
+              780
+            ]
+          ],
+          "min": 2.0,
+          "max": 14.0,
+          "mean": 7.9804
+        },
+        "sugar_g": {
+          "empty": 0,
+          "distinct": 18,
+          "type": "numeric",
+          "top": [
+            [
+              "9",
+              598
+            ],
+            [
+              "16",
+              579
+            ],
+            [
+              "6",
+              577
+            ],
+            [
+              "14",
+              576
+            ],
+            [
+              "13",
+              569
+            ]
+          ],
+          "min": 2.0,
+          "max": 19.0,
+          "mean": 10.5147
+        },
+        "sodium_mg": {
+          "empty": 0,
+          "distinct": 1299,
+          "type": "numeric",
+          "top": [
+            [
+              "1104",
+              19
+            ],
+            [
+              "691",
+              16
+            ],
+            [
+              "1224",
+              16
+            ],
+            [
+              "1397",
+              16
+            ],
+            [
+              "718",
+              16
+            ]
+          ],
+          "min": 200.0,
+          "max": 1499.0,
+          "mean": 851.2297
+        },
+        "cholesterol_mg": {
+          "empty": 0,
+          "distinct": 100,
+          "type": "numeric",
+          "top": [
+            [
+              "0",
+              1042
+            ],
+            [
+              "32",
+              118
+            ],
+            [
+              "21",
+              118
+            ],
+            [
+              "34",
+              113
+            ],
+            [
+              "36",
+              113
+            ]
+          ],
+          "min": 0.0,
+          "max": 99.0,
+          "mean": 44.2472
+        },
+        "vitamin_a_percent": {
+          "empty": 0,
+          "distinct": 35,
+          "type": "numeric",
+          "top": [
+            [
+              "24",
+              307
+            ],
+            [
+              "33",
+              307
+            ],
+            [
+              "13",
+              306
+            ],
+            [
+              "36",
+              304
+            ],
+            [
+              "20",
+              303
+            ]
+          ],
+          "min": 5.0,
+          "max": 39.0,
+          "mean": 22.1973
+        },
+        "vitamin_c_percent": {
+          "empty": 0,
+          "distinct": 55,
+          "type": "numeric",
+          "top": [
+            [
+              "22",
+              214
+            ],
+            [
+              "28",
+              208
+            ],
+            [
+              "29",
+              205
+            ],
+            [
+              "17",
+              203
+            ],
+            [
+              "7",
+              202
+            ]
+          ],
+          "min": 5.0,
+          "max": 59.0,
+          "mean": 31.911
+        },
+        "calcium_percent": {
+          "empty": 0,
+          "distinct": 25,
+          "type": "numeric",
+          "top": [
+            [
+              "9",
+              441
+            ],
+            [
+              "14",
+              423
+            ],
+            [
+              "15",
+              421
+            ],
+            [
+              "23",
+              419
+            ],
+            [
+              "6",
+              418
+            ]
+          ],
+          "min": 5.0,
+          "max": 29.0,
+          "mean": 16.9267
+        },
+        "iron_percent": {
+          "empty": 0,
+          "distinct": 30,
+          "type": "numeric",
+          "top": [
+            [
+              "36",
+              386
+            ],
+            [
+              "19",
+              361
+            ],
+            [
+              "32",
+              353
+            ],
+            [
+              "24",
+              352
+            ],
+            [
+              "23",
+              352
+            ]
+          ],
+          "min": 10.0,
+          "max": 39.0,
+          "mean": 24.4456
+        }
+      }
+    },
+    "recipe_steps.csv": {
+      "file": "recipe_steps.csv",
+      "rows": 84616,
+      "columns": 4,
+      "sha256": "b4b3cfac0ec582432583a90c0f9d41f87bf7784b8bcdd46aff2041f110921a5b",
+      "bytes": 4606493,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "recipe_id": {
+          "empty": 0,
+          "distinct": 9997,
+          "type": "text",
+          "top": [
+            [
+              "RCP00012",
+              11
+            ],
+            [
+              "RCP00015",
+              11
+            ],
+            [
+              "RCP00027",
+              11
+            ],
+            [
+              "RCP00046",
+              11
+            ],
+            [
+              "RCP00050",
+              11
+            ]
+          ]
+        },
+        "step_number": {
+          "empty": 0,
+          "distinct": 11,
+          "type": "numeric",
+          "top": [
+            [
+              "1",
+              9997
+            ],
+            [
+              "2",
+              9997
+            ],
+            [
+              "3",
+              9997
+            ],
+            [
+              "4",
+              9997
+            ],
+            [
+              "5",
+              9997
+            ]
+          ],
+          "min": 1.0,
+          "max": 11.0,
+          "mean": 4.9036
+        },
+        "step_description": {
+          "empty": 0,
+          "distinct": 20,
+          "type": "text",
+          "top": [
+            [
+              "Add ginger-garlic paste and cook for 2 minutes",
+              4507
+            ],
+            [
+              "Add onions and sauté until golden brown",
+              4491
+            ],
+            [
+              "Reduce heat and simmer covered for 20-30 minutes",
+              4489
+            ],
+            [
+              "Add all powdered spices and mix well",
+              4482
+            ],
+            [
+              "Add the marinated protein and cook until browned",
+              4472
+            ]
+          ]
+        },
+        "estimated_time_minutes": {
+          "empty": 0,
+          "distinct": 13,
+          "type": "numeric",
+          "top": [
+            [
+              "3",
+              6632
+            ],
+            [
+              "8",
+              6629
+            ],
+            [
+              "4",
+              6608
+            ],
+            [
+              "2",
+              6601
+            ],
+            [
+              "11",
+              6601
+            ]
+          ],
+          "min": 2.0,
+          "max": 14.0,
+          "mean": 7.9805
+        }
+      }
+    }
+  },
+  "cross_checks": {
+    "row_counts": {
+      "cuisines": 5,
+      "recipes": 9997,
+      "ingredients": 103908,
+      "nutrition": 9997,
+      "steps": 84616
+    },
+    "total_rows": 208523,
+    "primary_key_unique": {
+      "recipes_master.recipe_id": true,
+      "recipe_nutrition.recipe_id": true
+    },
+    "referential_integrity": {
+      "ingredients": {
+        "orphan_recipe_ids": 0,
+        "master_without_child": 0,
+        "duplicate_keys": null
+      },
+      "nutrition": {
+        "orphan_recipe_ids": 0,
+        "master_without_child": 0,
+        "duplicate_keys": 0
+      },
+      "steps": {
+        "orphan_recipe_ids": 0,
+        "master_without_child": 0,
+        "duplicate_keys": null
+      }
+    },
+    "cuisine_metadata": [
+      {
+        "cuisine": "Pakistani",
+        "meta_count": 3000,
+        "actual_count": 3000,
+        "match": true
+      },
+      {
+        "cuisine": "Indian",
+        "meta_count": 3498,
+        "actual_count": 3498,
+        "match": true
+      },
+      {
+        "cuisine": "Bangladeshi",
+        "meta_count": 1500,
+        "actual_count": 1500,
+        "match": true
+      },
+      {
+        "cuisine": "Afghan",
+        "meta_count": 1000,
+        "actual_count": 1000,
+        "match": true
+      },
+      {
+        "cuisine": "Fusion",
+        "meta_count": 999,
+        "actual_count": 999,
+        "match": true
+      }
+    ],
+    "calories_mismatch_master_vs_nutrition": 0,
+    "prep_plus_cook_equals_total": 9997,
+    "step_time_sum_equals_total": 51,
+    "dietary_conflicts": {
+      "is_gluten_free": 5863,
+      "is_vegetarian": 3259,
+      "is_vegan": 1740,
+      "is_halal": 1328
+    },
+    "dietary_raw_true_counts": {
+      "is_vegetarian": 3734,
+      "is_vegan": 964,
+      "is_gluten_free": 1527,
+      "is_halal": 8669
+    },
+    "dietary_calc_true_counts": {
+      "is_vegetarian": 2669,
+      "is_vegan": 984,
+      "is_gluten_free": 6302,
+      "is_halal": 9997
+    },
+    "dietary_conflict_recipes": 7952,
+    "dietary_conflict_total_labels": 12190,
+    "dietary_conflict_verifiable_labels": 10862,
+    "quantity_parse_status": {
+      "OK": 93911,
+      "PLACEHOLDER": 9997
+    },
+    "quantity_placeholder_rows": 9997,
+    "quantity_unit_distribution": {
+      "tbsp": 32016,
+      "medium": 17948,
+      "g": 17897,
+      "cloves": 9997,
+      "ml": 8067,
+      "tsp": 7986
+    },
+    "distinct_quantity_strings": 1517,
+    "duplicate_ingredient_groups": 7523,
+    "duplicate_ingredient_extra_rows": 7996,
+    "approx_g_per_serving": {
+      "min": 52.14,
+      "p50": 323.0,
+      "p95": 910.33,
+      "p99": 1285.5,
+      "max": 1937.5,
+      "cap": 1200.0,
+      "recipes_over_cap": 143
+    },
+    "category_conflicts": {
+      "Paneer": [
+        "Dairy",
+        "Proteins"
+      ]
+    },
+    "date_min": "2023-02-16",
+    "date_max": "2026-02-13",
+    "invalid_date_rows": 0,
+    "future_date_rows": 0,
+    "quote_hazard_rows": 0,
+    "max_text_length": 59,
+    "distinct_recipe_names": 3085,
+    "distinct_step_templates": 20,
+    "distinct_ingredient_names": 58,
+    "empty_cells_total": 0,
+    "raw_sha256": {
+      "cuisine_metadata.csv": "1b1657c9f814d264cc026a316538074c9ba8f39b53d9bd9d9a95c3e4ea71431e",
+      "recipes_master.csv": "f585abc3f5db50d9e1798b04002ebdebee30c5f918c11bd0cc884a720126e31e",
+      "recipe_ingredients.csv": "f535e10ccd5929c5ea0d51b528349bf1a2b48e17d3afeab82f9816a06bdf24a2",
+      "recipe_nutrition.csv": "271cdf41fcbb35d0d351f3902880a73a59efa426cc895441ab36a00969af2d18",
+      "recipe_steps.csv": "b4b3cfac0ec582432583a90c0f9d41f87bf7784b8bcdd46aff2041f110921a5b"
+    },
+    "raw_sha256_matches_expected": true
+  }
+}

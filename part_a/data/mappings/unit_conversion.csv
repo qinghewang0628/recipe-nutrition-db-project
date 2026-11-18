@@ -1,0 +1,11 @@
+raw_unit,dimension,canonical_unit,factor_to_canonical,gram_equivalent_per_unit,basis
+g,mass,g,1.0,1.0,SI mass base
+kg,mass,g,1000.0,1000.0,1 kg = 1000 g
+ml,volume,ml,1.0,1.0,SI volume base (density ~ 1 g/ml)
+l,volume,ml,1000.0,1000.0,1 L = 1000 ml
+tbsp,volume,ml,15.0,15.0,1 tablespoon = 15 ml ~ 15 g
+tsp,volume,ml,5.0,5.0,1 teaspoon = 5 ml ~ 5 g
+cup,volume,ml,240.0,240.0,1 cup = 240 ml ~ 240 g
+cloves,count,piece,1.0,3.0,1 garlic clove ~ 3 g
+medium,count,piece,1.0,100.0,1 medium vegetable ~ 100 g
+piece,count,piece,1.0,100.0,1 piece ~ 100 g (fallback)

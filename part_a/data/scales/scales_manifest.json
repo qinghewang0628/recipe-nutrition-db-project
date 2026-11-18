@@ -1,0 +1,155 @@
+{
+  "scales": {
+    "small": {
+      "name": "small",
+      "factor": 1,
+      "counts": {
+        "recipes": 9997,
+        "ingredients": 95912,
+        "nutrition": 9997,
+        "steps": 84616,
+        "cuisines": 5,
+        "recipe_allergens": 9997,
+        "ingredient_stats": 57
+      },
+      "files": {
+        "recipes": {
+          "path": "data/scales/small/recipes.csv",
+          "rows": 9997,
+          "sha256": "20c8c02da27f9190ce02ec5d1a817962f52059c756c8337311cdee518d917cf5"
+        },
+        "ingredients": {
+          "path": "data/scales/small/ingredients.csv",
+          "rows": 95912,
+          "sha256": "b0ccf32a9e9ffb05f7a1508c4fac9cce3fae8cd4305bd14e15c7b21f0633930a"
+        },
+        "nutrition": {
+          "path": "data/scales/small/nutrition.csv",
+          "rows": 9997,
+          "sha256": "271cdf41fcbb35d0d351f3902880a73a59efa426cc895441ab36a00969af2d18"
+        },
+        "steps": {
+          "path": "data/scales/small/steps.csv",
+          "rows": 84616,
+          "sha256": "b4b3cfac0ec582432583a90c0f9d41f87bf7784b8bcdd46aff2041f110921a5b"
+        },
+        "cuisines": {
+          "path": "data/scales/small/cuisines.csv",
+          "rows": 5,
+          "sha256": "b1c179ac9d4f9f9c4d1313bcf113d75dd214ff9214dcb0b7bd42b792b52dbfe6"
+        },
+        "recipe_allergens": {
+          "path": "data/scales/small/recipe_allergens.csv",
+          "rows": 9997,
+          "sha256": "adff65965eca110dfbbcb553cb21f8921a7865d5a43a42d6d028450a820693b0"
+        },
+        "ingredient_stats": {
+          "path": "data/scales/small/ingredient_stats.csv",
+          "rows": 57,
+          "sha256": "f2aac292d1388a90f5d4d10859b71ab4aaafad4925c98b8299450f9fa223e14d"
+        }
+      }
+    },
+    "medium": {
+      "name": "medium",
+      "factor": 5,
+      "counts": {
+        "ingredients": 472756,
+        "recipes": 49985,
+        "nutrition": 49985,
+        "steps": 423080,
+        "recipe_allergens": 49985,
+        "cuisines": 5,
+        "ingredient_stats": 57
+      },
+      "files": {
+        "recipes": {
+          "path": "data/scales/medium/recipes.csv",
+          "rows": 49985,
+          "sha256": "33062dfe4fd85e9c2048f73dbd097b293c037aba14689f5abeb2a31fec9f9727"
+        },
+        "ingredients": {
+          "path": "data/scales/medium/ingredients.csv",
+          "rows": 472756,
+          "sha256": "dee4e1a4a81ca85ba8b48d9f2fabf9a9c1f1e61a1640c898342bc0104424045d"
+        },
+        "nutrition": {
+          "path": "data/scales/medium/nutrition.csv",
+          "rows": 49985,
+          "sha256": "521b42348cc1979f643c6ba8548475272e93bcf0a3ed6f2baca919af35b9497a"
+        },
+        "steps": {
+          "path": "data/scales/medium/steps.csv",
+          "rows": 423080,
+          "sha256": "f3a2b78acdcfab681894645d5afb01a12a7ad6effbd37cac044a0cbab6315d09"
+        },
+        "cuisines": {
+          "path": "data/scales/medium/cuisines.csv",
+          "rows": 5,
+          "sha256": "29b4dad016dd43708cc9082c637915278b6f77fbd1be9c654658dab1b0c77e54"
+        },
+        "recipe_allergens": {
+          "path": "data/scales/medium/recipe_allergens.csv",
+          "rows": 49985,
+          "sha256": "7ad2cac64e5310787eb7d7bee3ff36cbeeca31e7ae9f745e02f69fbf2cb23e07"
+        },
+        "ingredient_stats": {
+          "path": "data/scales/medium/ingredient_stats.csv",
+          "rows": 57,
+          "sha256": "c98e4a4a40e1b059c00f7a11c1731b7a8810fe1af797e4748d984ba658a86118"
+        }
+      }
+    },
+    "large": {
+      "name": "large",
+      "factor": 20,
+      "counts": {
+        "ingredients": 1890743,
+        "recipes": 199940,
+        "nutrition": 199940,
+        "steps": 1692320,
+        "recipe_allergens": 199940,
+        "cuisines": 5,
+        "ingredient_stats": 57
+      },
+      "files": {
+        "recipes": {
+          "path": "data/scales/large/recipes.csv",
+          "rows": 199940,
+          "sha256": "f592cf5bd54746f15f6a0276326967bd0f356735a73c696bfa185e3b30f33343"
+        },
+        "ingredients": {
+          "path": "data/scales/large/ingredients.csv",
+          "rows": 1890743,
+          "sha256": "af4af1d574fbfc885e6beb98fcc59b5291e99cc0aa4435af3a7c903e2a54e2b0"
+        },
+        "nutrition": {
+          "path": "data/scales/large/nutrition.csv",
+          "rows": 199940,
+          "sha256": "95cc67691c827d6b2dd2c9b0f3321837019c541980b6e235f56209078cba9971"
+        },
+        "steps": {
+          "path": "data/scales/large/steps.csv",
+          "rows": 1692320,
+          "sha256": "b3843cde6fab98348d69895a024954748dfdecfa36d046d50363d4ff5a024505"
+        },
+        "cuisines": {
+          "path": "data/scales/large/cuisines.csv",
+          "rows": 5,
+          "sha256": "f995567f0f06ad27437bab406bd4524904dcbd01885066902cb8c42dfd7391ad"
+        },
+        "recipe_allergens": {
+          "path": "data/scales/large/recipe_allergens.csv",
+          "rows": 199940,
+          "sha256": "f93ed917190ee557f1490a766be4848347e04259ae947828f9bc280af17d1f65"
+        },
+        "ingredient_stats": {
+          "path": "data/scales/large/ingredient_stats.csv",
+          "rows": 57,
+          "sha256": "28f887bf7cc31d8c544861716b891890c04107d910de79f4ab7979d2f5f89260"
+        }
+      }
+    }
+  },
+  "random_seed": 20261116
+}
