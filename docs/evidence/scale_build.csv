@@ -1,0 +1,7 @@
+tier,factor,config,schema,size_mb,schema_s,master_s,load_s,derive_s,index_s,rows_cuisines,rows_cuisine_category,rows_recipes,rows_ingredient_master,rows_ingredients,rows_steps,rows_nutrition,rows_recipe_allergens,rows_recipe_dietary_audit,rows_ingredient_stats,rows_recipe_search_document
+small,1,indexed,t_small,57.7,0.04,0.02,1.62,0.42,1.15,5,25,9997,57,95912,84616,9997,9997,9997,57,9997
+small,1,noindex,t_small_noidx,46.4,0.03,0.02,2.11,0.56,0.0,5,25,9997,57,95912,84616,9997,9997,9997,57,9997
+medium,5,indexed,t_medium,292.6,0.05,0.12,13.14,3.55,5.98,5,25,49985,57,472756,423080,49985,49985,49985,57,49985
+medium,5,noindex,t_medium_noidx,238.5,0.03,0.02,12.27,3.79,0.0,5,25,49985,57,472756,423080,49985,49985,49985,57,49985
+large,20,indexed,t_large,1137.2,0.04,0.02,44.53,12.39,10.38,5,25,199940,57,1890743,1692320,199940,199940,199940,57,199940
+large,20,noindex,t_large_noidx,929.1,0.03,0.02,39.29,12.44,0.0,5,25,199940,57,1890743,1692320,199940,199940,199940,57,199940

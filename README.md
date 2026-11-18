@@ -4,8 +4,9 @@ Database course project (DSC5003): a recipe retrieval and nutrition
 recommendation system built on a cleaned South Asian recipe corpus.
 
 The work is split into four parts. Part A (data engineering) is complete and
-delivered as a reproducible package under `part_a/`. Part B (database design and
-core queries) is in progress in `sql/`.
+delivered as a reproducible package under `part_a/`. Part B (database design,
+indexes and the three core queries) is delivered in `sql/`; the design rationale,
+the ER diagram and the load/scale verification live in `docs/`.
 
 ## Repository layout
 
@@ -13,6 +14,7 @@ core queries) is in progress in `sql/`.
 | ---------- | ----- | --------------------------------------------------------------------- |
 | `part_a/`  | A     | Delivered ETL package: cleaning pipeline, 11 cleaned tables, docs     |
 | `sql/`     | B     | `schema.sql` (DDL), `index.sql` (indexes), `queries.sql` (core queries) |
+| `scale/`   | B     | Derivation of the 4 missing tier tables + the x1/x5/x20 experiment   |
 | `docs/`    | B/D   | `schema-design.md` (ER + 3NF), `load_verification.md`, `scale_experiment.md`, consolidated report |
 | `report/`  | D     | Final report and figures                                              |
 | `dataset/` | -     | Raw course CSVs, local only (licence unconfirmed), not committed      |
@@ -85,6 +87,32 @@ To run a single query, select its block and feed it to psql, e.g. q1:
 sed -n '/^-- q1 /,/^LIMIT (SELECT row_limit FROM input);$/p' sql/queries.sql | psql -h 127.0.0.1 -d recipe_db
 ```
 
+## Scale experiment (x1 / x5 / x20)
+
+Part A ships three tiers (9,997 / 49,985 / 199,940 recipes) but only the x1 tier
+carries all 11 tables. `scale/derive_missing_tables.sql` rebuilds the four
+missing ones from the seven that every tier does ship, applying Part A's own
+rules, so the queries under test are the shipped ones rather than a rewrite.
+`scale/check_equivalence.sql` proves the rebuild is exact on the one tier where
+both versions exist (0 differing rows on all four tables).
+
+```bash
+createdb -h 127.0.0.1 recipe_scale
+python3 scale/run_experiment.py                  # builds t_{small,medium,large} + _noidx schemas
+```
+
+The script rebuilds both configurations of every tier, measures q1-q3 in
+alternating blocks (four runs each, three blocks) and writes
+`docs/evidence/scale_build.csv`, `scale_timings.csv` and `scale_plans.txt`. Use a
+scratch database: it drops and recreates the `t_*` schemas. Results and the
+reading of them are in `docs/scale_experiment.md`.
+
+In one line: q3's GIN index is worth 15x / 20x / 22x across the three tiers -
+without it a search takes 5.5 s at x20; q2's b-trees hold 2.8x / 2.5x / 2.2x;
+q1's index is a tie at x1 and only 1.3-1.4x at x5/x20, because q1 spends its
+time aggregating ingredient postings (79k of them at x20) rather than reading
+the heap - which is the finding that feeds Part C's API design.
+
 ## Contracts inherited from Part A
 
 Part A fixes the column names and six usage rules
@@ -102,7 +130,7 @@ Part A fixes the column names and six usage rules
 | Part | Scope                            | State       |
 | ---- | -------------------------------- | ----------- |
 | A    | Cleaning, profiling, scale tiers | Delivered   |
-| B    | Schema, indexes, core queries    | Delivered (10k tier verified; scale run pending) |
+| B    | Schema, indexes, core queries    | Delivered (10k tier verified; x1/x5/x20 experiment recorded) |
 | C    | API and business logic           | Not started |
 | D    | Report and integration           | Not started |
 

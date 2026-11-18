@@ -1,0 +1,16 @@
+$ psql -h 127.0.0.1 -d recipe_scale -f scale/check_equivalence.sql
+# t_base = Part A schema+loader on part_a/data/scales/small (== data/clean, md5)
+# t_small = Part B sql/schema.sql + derivation of the 4 missing tables
+
+derived tables vs Part A tables at x1: rows differing in each direction (expect 0)
+       table_name       | rows_part_a | rows_derived | only_part_a | only_derived 
+------------------------+-------------+--------------+-------------+--------------
+ cuisine_category       |          25 |           25 |           0 |            0
+ ingredient_stats       |          57 |           57 |           0 |            0
+ recipe_dietary_audit   |        9997 |         9997 |           0 |            0
+ recipe_search_document |        9997 |         9997 |           0 |            0
+
+
+conflict_flags is built as NULLIF(concat_ws(...), '') so that a recipe with no
+conflict gets NULL, as Part A writes it. Built with a bare concat_ws(...) the
+same check reported 2,320 rows differing in both directions (empty string vs NULL).

@@ -1,0 +1,71 @@
+===== small q1 indexed =====
+runs_ms=[30.784, 45.239, 47.241, 40.118, 16.159, 16.538, 19.113, 18.284, 15.563, 15.753, 15.577, 15.553]
+plan: Limit > Result > Nested Loop > Nested Loop > CTE Scan > Seq Scan(ingredient_master) > Index Scan(ingredient_stats idx=ingredient_stats_pkey) > CTE Scan
+
+===== small q1 noindex =====
+runs_ms=[18.845, 16.542, 17.494, 17.101, 27.693, 30.336, 31.39, 27.171, 16.795, 16.853, 16.363, 16.546]
+plan: Limit > Result > Nested Loop > Nested Loop > CTE Scan > Seq Scan(ingredient_master) > Index Scan(ingredient_stats idx=ingredient_stats_pkey) > CTE Scan
+
+===== small q2 indexed =====
+runs_ms=[1.607, 0.789, 0.763, 0.623, 0.553, 0.584, 0.73, 2.282, 0.392, 0.433, 0.451, 0.462]
+plan: Limit > Sort > Nested Loop > Bitmap Heap Scan(recipes) > Bitmap Index Scan > Index Scan(recipe_allergens idx=recipe_allergens_pkey) > Function Scan
+
+===== small q2 noindex =====
+runs_ms=[1.599, 1.674, 1.607, 1.504, 3.211, 3.857, 4.119, 3.64, 1.637, 1.683, 1.695, 1.668]
+plan: Limit > Sort > Nested Loop > Seq Scan(recipes) > Index Scan(recipe_allergens idx=recipe_allergens_pkey) > Function Scan
+
+===== small q3 indexed =====
+runs_ms=[28.625, 28.521, 28.265, 28.966, 33.407, 35.184, 36.36, 33.551, 21.339, 21.806, 21.809, 21.64]
+plan: Nested Loop > Result > CTE Scan > Nested Loop > Nested Loop > Limit > CTE Scan > Sort
+
+===== small q3 noindex =====
+runs_ms=[358.31, 396.411, 399.951, 416.822, 478.154, 498.9, 470.998, 441.451, 459.382, 403.986, 352.249, 458.428]
+plan: Nested Loop > Result > CTE Scan > Nested Loop > Nested Loop > Limit > CTE Scan > Sort
+
+===== medium q1 indexed =====
+runs_ms=[54.763, 54.319, 54.672, 54.454, 79.557, 80.712, 79.833, 79.206, 50.846, 47.773, 88.297, 47.23]
+plan: Limit > Result > Nested Loop > Nested Loop > CTE Scan > Seq Scan(ingredient_master) > Index Scan(ingredient_stats idx=ingredient_stats_pkey) > CTE Scan
+
+===== medium q1 noindex =====
+runs_ms=[52.642, 53.706, 53.093, 53.538, 81.74, 79.496, 79.578, 79.069, 80.228, 85.709, 76.949, 74.05]
+plan: Limit > Result > Nested Loop > Nested Loop > CTE Scan > Seq Scan(ingredient_master) > Index Scan(ingredient_stats idx=ingredient_stats_pkey) > CTE Scan
+
+===== medium q2 indexed =====
+runs_ms=[1.653, 1.591, 1.548, 1.591, 2.57, 2.586, 2.569, 2.696, 3.739, 3.68, 3.929, 3.989]
+plan: Limit > Sort > Nested Loop > Bitmap Heap Scan(recipes) > Bitmap Index Scan > Index Scan(recipe_allergens idx=recipe_allergens_pkey) > Function Scan
+
+===== medium q2 noindex =====
+runs_ms=[5.183, 4.978, 5.128, 5.326, 7.679, 7.626, 7.924, 8.022, 6.996, 6.446, 6.211, 6.695]
+plan: Limit > Sort > Nested Loop > Seq Scan(recipes) > Index Scan(recipe_allergens idx=recipe_allergens_pkey) > Function Scan
+
+===== medium q3 indexed =====
+runs_ms=[62.266, 66.209, 61.407, 65.121, 99.691, 98.693, 98.193, 97.223, 129.951, 113.914, 115.214, 104.928]
+plan: Nested Loop > Result > CTE Scan > Nested Loop > Nested Loop > Limit > CTE Scan > Sort
+
+===== medium q3 noindex =====
+runs_ms=[1862.09, 2128.942, 2235.316, 2268.904, 2259.079, 1882.835, 3640.938, 4552.345, 1671.786, 1616.518, 1492.737, 1469.939]
+plan: Nested Loop > Result > CTE Scan > Nested Loop > Nested Loop > Limit > CTE Scan > Sort
+
+===== large q1 indexed =====
+runs_ms=[265.517, 273.48, 275.407, 274.049, 264.085, 268.149, 271.38, 274.339, 267.455, 263.834, 271.484, 265.979]
+plan: Limit > Result > Nested Loop > Nested Loop > CTE Scan > Seq Scan(ingredient_master) > Index Scan(ingredient_stats idx=ingredient_stats_pkey) > CTE Scan
+
+===== large q1 noindex =====
+runs_ms=[369.514, 356.856, 348.694, 357.204, 362.725, 358.608, 354.893, 362.851, 364.516, 359.619, 365.738, 363.74]
+plan: Limit > Result > Nested Loop > Nested Loop > CTE Scan > Seq Scan(ingredient_master) > Index Scan(ingredient_stats idx=ingredient_stats_pkey) > CTE Scan
+
+===== large q2 indexed =====
+runs_ms=[3.584, 3.554, 3.631, 3.737, 3.648, 3.708, 3.695, 3.794, 3.737, 3.652, 3.586, 3.775]
+plan: Limit > Nested Loop > Gather Merge > Sort > Bitmap Heap Scan(recipes) > Bitmap Index Scan > Index Scan(recipe_allergens idx=recipe_allergens_pkey) > Function Scan
+
+===== large q2 noindex =====
+runs_ms=[8.356, 8.373, 8.413, 8.381, 8.137, 8.144, 7.94, 8.211, 8.123, 8.062, 8.005, 8.018]
+plan: Limit > Nested Loop > Gather Merge > Sort > Seq Scan(recipes) > Index Scan(recipe_allergens idx=recipe_allergens_pkey) > Function Scan
+
+===== large q3 indexed =====
+runs_ms=[242.61, 239.114, 238.171, 240.422, 248.716, 246.287, 246.359, 243.95, 254.227, 244.449, 246.555, 246.208]
+plan: Nested Loop > Result > CTE Scan > Nested Loop > Nested Loop > Limit > CTE Scan > Sort
+
+===== large q3 noindex =====
+runs_ms=[5511.898, 5500.923, 5608.442, 5208.257, 5601.528, 5421.642, 5172.161, 5407.163, 5691.163, 5493.462, 5654.389, 5195.075]
+plan: Nested Loop > Result > CTE Scan > Nested Loop > Nested Loop > Limit > CTE Scan > Sort
