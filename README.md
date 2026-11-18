@@ -5,14 +5,14 @@ recommendation system built on a cleaned South Asian recipe corpus.
 
 The work is split into four parts. Part A (data engineering) is complete and
 delivered as a reproducible package under `part_a/`. Part B (database design and
-core queries) is in progress in `db/`.
+core queries) is in progress in `sql/`.
 
 ## Repository layout
 
 | Path       | Owner | Contents                                                              |
 | ---------- | ----- | --------------------------------------------------------------------- |
 | `part_a/`  | A     | Delivered ETL package: cleaning pipeline, 11 cleaned tables, docs     |
-| `db/`      | B     | `schema.sql` (DDL), `index.sql` (indexes), `queries.sql` (core queries) |
+| `sql/`     | B     | `schema.sql` (DDL), `index.sql` (indexes), `queries.sql` (core queries) |
 | `docs/`    | B/D   | ER diagram, load verification, scale experiment, consolidated report  |
 | `report/`  | D     | Final report and figures                                              |
 | `dataset/` | -     | Raw course CSVs, local only (licence unconfirmed), not committed      |
@@ -23,9 +23,10 @@ core queries) is in progress in `db/`.
 archive-datasets/*.csv            (5 raw CSVs, read-only, not committed)
   -> part_a/etl/clean.py          -> part_a/data/clean/*.csv   (11 tables)
   -> part_a/etl/scale.py          -> part_a/data/scales/{small,medium,large}
-  -> part_a/sql/load_clean.sql    -> PostgreSQL tables (schema in db/schema.sql)
-  -> db/queries.sql               -> the three core retrieval queries
+  -> part_a/sql/load_clean.sql    -> PostgreSQL tables (schema in sql/schema.sql)
+  -> sql/queries.sql              -> the three core retrieval queries
 ```
+
 
 ## Prerequisites
 
@@ -48,17 +49,41 @@ the 50 executable assertions are in `part_a/docs/verification_report.md`.
 
 ```bash
 createdb -h 127.0.0.1 recipe_db                       # once
-psql -h 127.0.0.1 -d recipe_db -v ON_ERROR_STOP=1 -f db/schema.sql
-psql -h 127.0.0.1 -d recipe_db -v ON_ERROR_STOP=1 -f db/index.sql
+psql -h 127.0.0.1 -d recipe_db -v ON_ERROR_STOP=1 -f sql/schema.sql
 
 cd part_a                                             # \copy paths are relative to CWD
 psql -h 127.0.0.1 -d recipe_db -v ON_ERROR_STOP=1 -f sql/load_clean.sql
+cd ..
+
+psql -h 127.0.0.1 -d recipe_db -v ON_ERROR_STOP=1 -f sql/index.sql   # after the load
 ```
 
 `part_a/sql/load_*.sql` copies `recipes` before `cuisines`, so every foreign key
-in `db/schema.sql` is declared `DEFERRABLE INITIALLY DEFERRED`; the loader wraps
+in `sql/schema.sql` is declared `DEFERRABLE INITIALLY DEFERRED`; the loader wraps
 its `\copy` calls in a single transaction and the constraints are checked at
-`COMMIT`.
+`COMMIT`. `sql/index.sql` runs last because the composite index is cheaper to
+build in bulk and because its closing `ANALYZE` gives the planner statistics.
+
+## Run the three core queries
+
+`sql/queries.sql` holds q1 (reverse ingredient search), q2 (multi-condition
+filter) and q3 (full-text search). Each one is a standalone statement whose
+parameters are literals inside the statement (a one-row `WITH input` block for
+q1/q3, a one-row FROM subquery for q2), so it can be run as-is:
+
+```bash
+psql -h 127.0.0.1 -d recipe_db -f sql/queries.sql          # all three, in order
+```
+
+Load verification, integrity checks, constraint tests and the before/after index
+timings are recorded in `docs/load_verification.md`, with the raw psql output in
+`docs/evidence/`.
+
+To run a single query, select its block and feed it to psql, e.g. q1:
+
+```bash
+sed -n '/^-- q1 /,/^LIMIT (SELECT row_limit FROM input);$/p' sql/queries.sql | psql -h 127.0.0.1 -d recipe_db
+```
 
 ## Contracts inherited from Part A
 
@@ -77,7 +102,7 @@ Part A fixes the column names and six usage rules
 | Part | Scope                            | State       |
 | ---- | -------------------------------- | ----------- |
 | A    | Cleaning, profiling, scale tiers | Delivered   |
-| B    | Schema, indexes, core queries    | In progress |
+| B    | Schema, indexes, core queries    | Delivered (10k tier verified; scale run pending) |
 | C    | API and business logic           | Not started |
 | D    | Report and integration           | Not started |
 

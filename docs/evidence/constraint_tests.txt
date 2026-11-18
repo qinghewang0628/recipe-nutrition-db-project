@@ -1,0 +1,15 @@
+-- a) foreign key: ingredient line for a recipe that does not exist
+psql:/tmp/negative_tests.sql:7: ERROR:  insert or update on table "ingredients" violates foreign key constraint "ingredients_recipe_id_fkey"
+DETAIL:  Key (recipe_id)=(RCP99999) is not present in table "recipes".
+-- b) CHECK: total_time_minutes disagrees with prep + cook
+psql:/tmp/negative_tests.sql:12: ERROR:  new row for relation "recipes" violates check constraint "total_time_is_prep_plus_cook"
+DETAIL:  Failing row contains (RCP00001, Sajji, Pakistani, Main Course, Baked, Medium, 43, 129, 177, 7, Mild, Dinner, f, f, f, t, f, f, f, t, f, 0, 3.6, 2070, 500, 9.20, 2024-12-02, f, t, 11, 9, 3, 1635.00, 233.57, f).
+-- c) CHECK: unknown spice level
+psql:/tmp/negative_tests.sql:17: ERROR:  new row for relation "recipes" violates check constraint "recipes_spice_level_check"
+DETAIL:  Failing row contains (RCP00001, Sajji, Pakistani, Main Course, Baked, Medium, 43, 129, 172, 7, Extreme, Dinner, f, f, f, t, f, f, f, t, f, 0, 3.6, 2070, 500, 9.20, 2024-12-02, f, t, 11, 9, 3, 1635.00, 233.57, f).
+-- d) CHECK: placeholder line given a numeric value
+psql:/tmp/negative_tests.sql:23: ERROR:  new row for relation "ingredients" violates check constraint "placeholder_has_no_value"
+DETAIL:  Failing row contains (RCP00001, 3, ING_SALT, Salt, Salt, Others, to taste, 3.0000, to taste, TO_TASTE, na, null, null, null, t, TO_TASTE, PLACEHOLDER, 1, TO_TASTE, f, null, exact).
+-- e) CHECK: allergen_count disagrees with the boolean flags
+psql:/tmp/negative_tests.sql:28: ERROR:  new row for relation "recipe_allergens" violates check constraint "allergen_count_matches_flags"
+DETAIL:  Failing row contains (RCP00001, gluten|mustard|shellfish, 4, t, f, f, f, t, f, f, f, t, f).

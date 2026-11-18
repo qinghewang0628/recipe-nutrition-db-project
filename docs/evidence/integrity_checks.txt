@@ -1,0 +1,58 @@
+== 1. row counts ==
+       table_name       | count 
+------------------------+-------
+ cuisine_category       |    25
+ cuisines               |     5
+ ingredient_master      |    57
+ ingredient_stats       |    57
+ ingredients            | 95912
+ nutrition              |  9997
+ recipe_allergens       |  9997
+ recipe_dietary_audit   |  9997
+ recipe_search_document |  9997
+ recipes                |  9997
+ steps                  | 84616
+(11 rows)
+
+== 2. lossless merge ==
+ lines | raw_rows | matches_raw_source 
+-------+----------+--------------------
+ 95912 |   103908 | t
+(1 row)
+
+== 3. orphan check (all FKs) ==
+ ing_orphan_recipe | ing_orphan_master | step_orphan | nutr_orphan | allergen_orphan | audit_orphan | doc_orphan | cat_orphan 
+-------------------+-------------------+-------------+-------------+-----------------+--------------+------------+------------
+                 0 |                 0 |           0 |           0 |               0 |            0 |          0 |          0
+(1 row)
+
+== 4. 1:1 coverage (every recipe has exactly one extension row) ==
+ missing_nutrition | missing_allergens | missing_doc 
+-------------------+-------------------+-------------
+                 0 |                 0 |           0
+(1 row)
+
+== 5. derived counters agree with the child tables ==
+ bad_ingredient_count | bad_step_count 
+----------------------+----------------
+                    0 |              0
+(1 row)
+
+== 6. quantity placeholders (8,940 known) ==
+ placeholder_lines | inconsistent_placeholder | parsed_without_grams 
+-------------------+--------------------------+----------------------
+              8940 |                        0 |                    0
+(1 row)
+
+== 7. idf range (should be 1.0 for salt/onion/garlic) ==
+ min_idf  | max_idf  | ubiquitous_ingredients 
+----------+----------+------------------------
+ 1.000000 | 3.737794 |                      3
+(1 row)
+
+== 8. dietary conflict totals ==
+ conflicts | recipes 
+-----------+---------
+     10862 |    9997
+(1 row)
+

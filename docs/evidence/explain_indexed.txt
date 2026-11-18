@@ -1,0 +1,155 @@
+
+===== q1 plan (run 5) =====
+QUERY PLAN                                                                                               
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=979.07..979.09 rows=7 width=217) (actual time=2.579..2.581 rows=10 loops=1)
+   Buffers: shared hit=262
+   CTE input
+     ->  Result  (cost=0.00..0.01 rows=1 width=40) (actual time=0.000..0.000 rows=1 loops=1)
+   CTE wanted
+     ->  Nested Loop  (cost=0.14..3.98 rows=3 width=30) (actual time=0.006..0.014 rows=3 loops=1)
+           Buffers: shared hit=7
+           ->  Nested Loop  (cost=0.00..2.87 rows=3 width=22) (actual time=0.003..0.008 rows=3 loops=1)
+                 Join Filter: (m.canonical_name = ANY (p.wanted))
+                 Rows Removed by Join Filter: 54
+                 Buffers: shared hit=1
+                 ->  CTE Scan on input p  (cost=0.00..0.02 rows=1 width=32) (actual time=0.000..0.000 rows=1 loops=1)
+                 ->  Seq Scan on ingredient_master m  (cost=0.00..1.57 rows=57 width=22) (actual time=0.001..0.003 rows=57 loops=1)
+                       Buffers: shared hit=1
+           ->  Index Scan using ingredient_stats_pkey on ingredient_stats s_1  (cost=0.14..0.37 rows=1 width=21) (actual time=0.002..0.002 rows=1 loops=3)
+                 Index Cond: (canonical_id = m.canonical_id)
+                 Buffers: shared hit=6
+   InitPlan 3
+     ->  CTE Scan on input  (cost=0.00..0.02 rows=1 width=4) (actual time=0.002..0.002 rows=1 loops=1)
+   ->  Sort  (cost=975.06..975.22 rows=67 width=217) (actual time=2.576..2.577 rows=10 loops=1)
+         Sort Key: s.weighted_score DESC, (((s.matched_ingredients)::numeric / (r.ingredient_count)::numeric)) DESC, r.ingredient_count, r.recipe_id
+         Sort Method: top-N heapsort  Memory: 27kB
+         Buffers: shared hit=262
+         ->  Hash Join  (cost=629.29..973.02 rows=67 width=217) (actual time=1.710..2.474 rows=426 loops=1)
+               Hash Cond: (r.recipe_id = s.recipe_id)
+               Buffers: shared hit=253
+               ->  Seq Scan on recipes r  (cost=0.00..315.97 rows=9997 width=49) (actual time=0.003..0.302 rows=9997 loops=1)
+                     Buffers: shared hit=216
+               ->  Hash  (cost=628.46..628.46 rows=67 width=81) (actual time=1.701..1.701 rows=426 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 38kB
+                     Buffers: shared hit=37
+                     ->  Subquery Scan on s  (cost=624.45..628.46 rows=67 width=81) (actual time=1.378..1.675 rows=426 loops=1)
+                           Buffers: shared hit=37
+                           ->  HashAggregate  (cost=624.45..627.79 rows=67 width=81) (actual time=1.378..1.659 rows=426 loops=1)
+                                 Group Key: i.recipe_id
+                                 Filter: (count(*) >= (InitPlan 5).col1)
+                                 Batches: 1  Memory Usage: 1761kB
+                                 Rows Removed by Filter: 3140
+                                 Buffers: shared hit=37
+                                 InitPlan 4
+                                   ->  Aggregate  (cost=0.07..0.08 rows=1 width=32) (actual time=0.001..0.001 rows=1 loops=1)
+                                         ->  CTE Scan on wanted  (cost=0.00..0.06 rows=3 width=16) (actual time=0.000..0.000 rows=3 loops=1)
+                                 InitPlan 5
+                                   ->  CTE Scan on input input_1  (cost=0.00..0.02 rows=1 width=4) (actual time=0.000..0.000 rows=1 loops=1)
+                                 ->  HashAggregate  (cost=485.53..536.01 rows=5048 width=57) (actual time=0.673..0.858 rows=4014 loops=1)
+                                       Group Key: i.recipe_id, w.canonical_id, w.idf
+                                       Batches: 1  Memory Usage: 721kB
+                                       Buffers: shared hit=37
+                                       ->  Nested Loop  (cost=0.42..447.67 rows=5048 width=57) (actual time=0.037..0.326 rows=4014 loops=1)
+                                             Buffers: shared hit=37
+                                             ->  CTE Scan on wanted w  (cost=0.00..0.06 rows=3 width=48) (actual time=0.006..0.015 rows=3 loops=1)
+                                                   Buffers: shared hit=7
+                                             ->  Index Only Scan using idx_ingredients_canonical on ingredients i  (cost=0.42..132.37 rows=1683 width=21) (actual time=0.014..0.059 rows=1338 loops=3)
+                                                   Index Cond: (canonical_id = w.canonical_id)
+                                                   Heap Fetches: 0
+                                                   Buffers: shared hit=30
+ Planning:
+   Buffers: shared hit=345
+ Planning Time: 0.633 ms
+ Execution Time: 2.644 ms
+(60 rows)
+
+===== q1 timings =====
+[4.604, 2.644, 2.637, 2.796, 2.644] median=2.644 ms
+
+===== q2 plan (run 5) =====
+QUERY PLAN                                                                                                                                                                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=314.96..314.97 rows=4 width=86) (actual time=0.288..0.289 rows=14 loops=1)
+   Buffers: shared hit=248
+   ->  Sort  (cost=314.96..314.97 rows=4 width=86) (actual time=0.288..0.288 rows=14 loops=1)
+         Sort Key: r.rating DESC, r.review_count DESC, r.recipe_id
+         Sort Method: quicksort  Memory: 26kB
+         Buffers: shared hit=248
+         ->  Nested Loop  (cost=11.83..314.92 rows=4 width=86) (actual time=0.098..0.274 rows=14 loops=1)
+               Buffers: shared hit=239
+               ->  Bitmap Heap Scan on recipes r  (cost=11.55..239.54 rows=9 width=73) (actual time=0.088..0.212 rows=14 loops=1)
+                     Recheck Cond: ((total_time_minutes <= 90) AND is_vegetarian AND is_gluten_free)
+                     Filter: ((estimated_cost_usd <= 10.00) AND (calories_per_serving >= 200) AND (calories_per_serving <= 600) AND (rating >= 4.0) AND (cuisine = 'Indian'::text) AND (spice_level = 'Medium'::text))
+                     Rows Removed by Filter: 482
+                     Heap Blocks: exact=195
+                     Buffers: shared hit=197
+                     ->  Bitmap Index Scan on idx_recipes_veg_gf_time  (cost=0.00..11.55 rows=436 width=0) (actual time=0.013..0.013 rows=496 loops=1)
+                           Index Cond: (total_time_minutes <= 90)
+                           Buffers: shared hit=2
+               ->  Index Scan using recipe_allergens_pkey on recipe_allergens a  (cost=0.29..8.38 rows=1 width=22) (actual time=0.004..0.004 rows=1 loops=14)
+                     Index Cond: (recipe_id = r.recipe_id)
+                     Filter: (NOT EXISTS(SubPlan 1))
+                     Buffers: shared hit=42
+                     SubPlan 1
+                       ->  Function Scan on unnest x  (cost=0.00..0.07 rows=1 width=0) (actual time=0.000..0.000 rows=0 loops=14)
+                             Filter: CASE tag WHEN 'gluten'::text THEN a.has_gluten WHEN 'milk'::text THEN a.has_milk WHEN 'egg'::text THEN a.has_egg WHEN 'fish'::text THEN a.has_fish WHEN 'shellfish'::text THEN a.has_shellfish WHEN 'tree_nuts'::text THEN a.has_tree_nuts WHEN 'sesame'::text THEN a.has_sesame WHEN 'soy'::text THEN a.has_soy WHEN 'mustard'::text THEN a.has_mustard WHEN 'peanut'::text THEN a.has_peanut ELSE false END
+                             Rows Removed by Filter: 2
+ Planning:
+   Buffers: shared hit=295
+ Planning Time: 0.465 ms
+ Execution Time: 0.324 ms
+(29 rows)
+
+===== q2 timings =====
+[0.642, 0.511, 0.583, 0.39, 0.324] median=0.511 ms
+
+===== q3 plan (run 5) =====
+QUERY PLAN                                                                                 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=197.56..242.04 rows=5 width=113) (actual time=13.022..13.661 rows=20 loops=1)
+   Buffers: shared hit=459
+   CTE input
+     ->  Result  (cost=0.00..0.01 rows=1 width=36) (actual time=0.000..0.001 rows=1 loops=1)
+   CTE query
+     ->  CTE Scan on input  (cost=0.00..0.27 rows=1 width=32) (actual time=0.502..0.505 rows=1 loops=1)
+           Buffers: shared hit=22
+   ->  Nested Loop  (cost=197.28..240.38 rows=5 width=523) (actual time=12.971..13.113 rows=20 loops=1)
+         Join Filter: (d_1.recipe_id = r.recipe_id)
+         Buffers: shared hit=459
+         ->  Nested Loop  (cost=197.00..238.29 rows=5 width=496) (actual time=12.957..13.025 rows=20 loops=1)
+               Buffers: shared hit=399
+               ->  Limit  (cost=196.71..196.72 rows=5 width=13) (actual time=12.946..12.948 rows=20 loops=1)
+                     Buffers: shared hit=339
+                     InitPlan 3
+                       ->  CTE Scan on input input_1  (cost=0.00..0.02 rows=1 width=4) (actual time=0.001..0.002 rows=1 loops=1)
+                     ->  Sort  (cost=196.69..196.82 rows=50 width=13) (actual time=12.941..12.942 rows=20 loops=1)
+                           Sort Key: (ts_rank(to_tsvector('english'::regconfig, d_1.search_document), q_1.tsq, 32)) DESC, d_1.recipe_id
+                           Sort Method: top-N heapsort  Memory: 26kB
+                           Buffers: shared hit=339
+                           ->  Nested Loop  (cost=13.06..195.28 rows=50 width=13) (actual time=0.652..12.877 rows=415 loops=1)
+                                 Buffers: shared hit=333
+                                 ->  CTE Scan on query q_1  (cost=0.00..0.02 rows=1 width=32) (actual time=0.502..0.506 rows=1 loops=1)
+                                       Buffers: shared hit=22
+                                 ->  Bitmap Heap Scan on recipe_search_document d_1  (cost=13.06..182.14 rows=50 width=483) (actual time=0.109..0.413 rows=415 loops=1)
+                                       Recheck Cond: (to_tsvector('english'::regconfig, search_document) @@ q_1.tsq)
+                                       Heap Blocks: exact=301
+                                       Buffers: shared hit=307
+                                       ->  Bitmap Index Scan on idx_search_document_fts  (cost=0.00..13.05 rows=50 width=0) (actual time=0.093..0.093 rows=415 loops=1)
+                                             Index Cond: (to_tsvector('english'::regconfig, search_document) @@ q_1.tsq)
+                                             Buffers: shared hit=6
+               ->  Index Scan using recipe_search_document_pkey on recipe_search_document d  (cost=0.29..8.30 rows=1 width=483) (actual time=0.004..0.004 rows=1 loops=20)
+                     Index Cond: (recipe_id = d_1.recipe_id)
+                     Buffers: shared hit=60
+         ->  Index Scan using recipes_pkey on recipes r  (cost=0.29..0.41 rows=1 width=45) (actual time=0.004..0.004 rows=1 loops=20)
+               Index Cond: (recipe_id = d.recipe_id)
+               Buffers: shared hit=60
+   ->  CTE Scan on query q  (cost=0.00..0.02 rows=1 width=32) (actual time=0.000..0.000 rows=1 loops=20)
+ Planning:
+   Buffers: shared hit=422
+ Planning Time: 0.569 ms
+ Execution Time: 13.702 ms
+(42 rows)
+
+===== q3 timings =====
+[16.856, 14.999, 13.392, 13.542, 13.702] median=13.702 ms
