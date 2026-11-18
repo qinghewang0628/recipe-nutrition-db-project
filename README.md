@@ -18,6 +18,7 @@ the ER diagram and the load/scale verification live in `docs/`.
 | `docs/`    | B/D   | `schema-design.md` (ER + 3NF), `data_dictionary.md` (physical: keys, CHECKs, indexes), `load_verification.md`, `scale_experiment.md`, consolidated report |
 | `docs/figures/` | B | Rendered ER diagram (`er-diagram.png` / `.svg`) and index timings (`timings.png` / `.svg`) |
 | `tools/`   | B     | Generators for `docs/data_dictionary.md` and `docs/figures/timings.*` |
+| `HANDOFF.md` | B    | What C and D need from Part B: one-minute database restore, frozen schema v1.0, the index each query owns, traps, evidence map |
 | `report/`  | D     | Final report and figures                                              |
 | `dataset/` | -     | Raw course CSVs, local only (licence unconfirmed), not committed      |
 
